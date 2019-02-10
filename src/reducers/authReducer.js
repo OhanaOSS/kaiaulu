@@ -1,4 +1,4 @@
-import { SIGN_OUT, NEW_SIGN_IN, NEW_SIGN_UP_WITH_NEW_FAMILY } from '../actions/types';
+import { VALIDATE_TOKEN_SUCESS, VALIDATE_TOKEN_FAILURE, SIGN_OUT, NEW_SIGN_IN, NEW_SIGN_UP_WITH_NEW_FAMILY } from '../actions/types';
 
 const initialState = {
   baseUrl: '',
@@ -29,9 +29,20 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loggedIn: false,
-        baseUrl: action.baseUrl,
         currentHeader: {},
         data: {}
+      };
+    case VALIDATE_TOKEN_FAILURE:
+      return {
+        ...state,
+        loggedIn: false,
+        currentHeader: {}
+      };
+    case VALIDATE_TOKEN_SUCESS:
+      return {
+        ...state,
+        loggedIn: true,
+        currentHeader: action.headers
       };
     default:
       return state;
