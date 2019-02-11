@@ -5,6 +5,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "axios-debug-log": "^0.4.0",
+    "connected-react-router": "^6.3.0",
+    "history": "^4.7.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",

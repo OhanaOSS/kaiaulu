@@ -2,18 +2,19 @@
 
 import { VALIDATE_TOKEN_SUCESS, VALIDATE_TOKEN_FAILURE, SIGN_OUT, NEW_SIGN_IN, NEW_SIGN_UP_WITH_NEW_FAMILY } from './types';
 import Axios from 'axios';
-import store from '../store';
+import store, {history} from '../store';
 
 export const signIn = signInCredentials => dispatch => {
     Axios.post(`http://${signInCredentials.baseUrl}/v1/auth/sign_in`, signInCredentials)
-    .then(res => 
+    .then(res => {
       dispatch({
         type: NEW_SIGN_IN,
         baseUrl: signInCredentials.baseUrl,
         payload: res.data.data,
         headers: res.headers
       })
-    );
+      history.push('/app')
+    });
 };
 
 export const signUpWithNewFamily = signUpWithNewFamilyCredentials => dispatch => {

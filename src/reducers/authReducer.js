@@ -13,7 +13,8 @@ export default function(state = initialState, action) {
     case NEW_SIGN_IN:
       return {
         ...state,
-        loggedIn: true,
+        isAuthenticated: true,
+        isLoggedIn: true,
         baseUrl: action.baseUrl,
         currentHeader: action.headers,
         data: action.payload
@@ -21,7 +22,8 @@ export default function(state = initialState, action) {
     case NEW_SIGN_UP_WITH_NEW_FAMILY:
       return {
         ...state,
-        loggedIn: true,
+        isAuthenticated: true,
+        isLoggedIn: true,
         baseUrl: action.baseUrl,
         currentHeader: action.headers,
         data: action.payload
@@ -29,20 +31,23 @@ export default function(state = initialState, action) {
     case SIGN_OUT:
       return {
         ...state,
-        loggedIn: false,
+        isAuthenticated: false,
+        isLoggedIn: false,
         currentHeader: {},
         data: {}
       };
     case VALIDATE_TOKEN_FAILURE:
       return {
         ...state,
-        loggedIn: false,
+        isAuthenticated: false,
+        isLoggedIn: false,
         currentHeader: {}
       };
     case VALIDATE_TOKEN_SUCESS:
       return {
         ...state,
-        loggedIn: true,
+        isAuthenticated: true,
+        isLoggedIn: true,
         currentHeader: action.headers
       };
     default:

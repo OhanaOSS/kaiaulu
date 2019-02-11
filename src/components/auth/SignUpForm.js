@@ -41,7 +41,7 @@ class SignUpForm extends Component {
   render() {
     return (
       <div>
-        <h1>SignIn</h1>
+        <small>SignIn</small>
         <form onSubmit={this.onSubmit}>
         <div>
             <label>Base URL: </label>

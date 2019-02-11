@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { signIn } from '../actions/authActions';
+import { signIn } from '../../actions/authActions';
 
 class SignInForm extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class SignInForm extends Component {
       password: this.state.password
     };
 
-    this.props.signIn(signInCredentials);
+    this.props.signIn(signInCredentials)
   }
 
   render() {
