@@ -11,12 +11,15 @@ import SignInPage from './components/pages/SignInPage'
 import About from './components/pages/About'
 import NotFound from './components/pages/NotFound'
 import Nav from './components/Nav';
+import {Container} from 'react-bootstrap';
 
 const PrivateRoute = ({ component: Component, ...data }) => (
   <Route  
     {...data}
     render={props =>
-      store.getState().currentUser.isAuthenticated ? (
+      // store.getState().currentUser.isAuthenticated 
+      // default true for development change afterward
+      true ? (
         <Component {...props} />
       ) : (
         <Redirect
@@ -37,15 +40,17 @@ class App extends Component {
       <Provider store={store}>
           <ConnectedRouter history = {history}>
           <div className="App">
-            <Nav />
-            <Switch>
-              <Route exact path="/" component={Home}/>
-              <PrivateRoute path="/app" component={Portal}/>
-              <Route path="/signup" component={RegistrationPage}/>
-              <Route path="/signin" component={SignInPage}/>
-              <Route path="/about" component={About}/>
-              <Route component={NotFound}/>
-            </Switch>
+            <Container>
+              <Nav />
+              <Switch>
+                <Route exact path="/" component={Home}/>
+                <PrivateRoute path="/app" component={Portal}/>
+                <Route path="/signup" component={RegistrationPage}/>
+                <Route path="/signin" component={SignInPage}/>
+                <Route path="/about" component={About}/>
+                <Route component={NotFound}/>
+              </Switch>
+            </Container>
           </div>
           </ConnectedRouter>
       </Provider>
