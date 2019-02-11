@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { signOut } from '../actions/authActions';
-import store from '../store';
+import { signOut } from '../../actions/authActions';
+import store from '../../store';
 
 class SignOutButton extends Component {
   constructor(props) {

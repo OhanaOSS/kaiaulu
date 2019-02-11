@@ -29,14 +29,15 @@ export const signUpWithNewFamily = signUpWithNewFamilyCredentials => dispatch =>
             surname: signUpWithNewFamilyCredentials.surname,
         }
     })
-    .then(res => 
+    .then(res => {
       dispatch({
         type: NEW_SIGN_UP_WITH_NEW_FAMILY,
         baseUrl: signUpWithNewFamilyCredentials.baseUrl,
         payload: res.data.data,
         headers: res.headers
       })
-    );
+      history.push('/app')
+    });
 };
 
 export const signOut = signOutRequest => dispatch => {
@@ -66,12 +67,13 @@ export const signOut = signOutRequest => dispatch => {
   }
 
   Axios(config)
-  .then(res => 
+  .then(res => {
     dispatch({
       type: SIGN_OUT,
       headers: res.headers
     })
-  );
+    history.push('/')
+  });
 };
 
 export const validateToken = validateTokenRequest => dispatch => {
