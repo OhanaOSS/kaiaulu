@@ -2,13 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 
-const initialState = {
-  baseUrl: '',
-  currentHeader: {},
-  data: {},
-  isAuthenticated: false,
-  isLoggedIn: false
-};
+const initialState = {};
 
 const middleware = [thunk];
 

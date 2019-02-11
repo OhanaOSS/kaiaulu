@@ -11,12 +11,11 @@ import NotFound from './components/pages/NotFound'
 import Nav from "./components/Nav";
 
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  console.log(rest),
+const PrivateRoute = ({ component: Component, ...data }) => (
   <Route
-    {...rest}
+    {...data}
     render={props =>
-      this.state.isAuthenticated ? (
+     data.auth === true ? (
         <Component {...props} />
       ) : (
         <Redirect
@@ -48,7 +47,7 @@ class App extends Component {
           <div className="App">
             <Nav />
             <Route exact path="/" component={Home}/>
-            <PrivateRoute path="/app" component={Portal}/>
+            <PrivateRoute path="/app" auth={this.state.isAuthenticated} component={Portal}/>
             <Route path="/signup" component={RegistrationPage}/>
             <Route path="/signin" component={SignInPage}/>
             <Route path="/about" component={About}/>
