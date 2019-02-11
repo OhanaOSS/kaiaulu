@@ -4,7 +4,8 @@ const initialState = {
   baseUrl: '',
   currentHeader: {},
   data: {},
-  loggedIn: false,
+  isAuthenticated: false,
+  isLoggedIn: false
 };
 
 export default function(state = initialState, action) {

@@ -3,7 +3,11 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 
 const initialState = {
-  baseURL: 'https://capstone-lassiter.herokuapp.com/'
+  baseUrl: '',
+  currentHeader: {},
+  data: {},
+  isAuthenticated: false,
+  isLoggedIn: false
 };
 
 const middleware = [thunk];
