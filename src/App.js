@@ -44,7 +44,7 @@ class App extends Component {
               <Route path="/signup" component={RegistrationPage}/>
               <Route path="/signin" component={SignInPage}/>
               <Route path="/about" component={About}/>
-              {/* <Route exact component={NotFound}/> */}
+              <Route component={NotFound}/>
             </Switch>
           </div>
           </ConnectedRouter>
