@@ -17,9 +17,10 @@ const PrivateRoute = ({ component: Component, ...data }) => (
   <Route  
     {...data}
     render={props =>
-      // store.getState().currentUser.isAuthenticated 
+      store.getState().currentUser.isAuthenticated 
       // default true for development change afterward
-      true ? (
+      // true 
+      ? (
         <Component {...props} />
       ) : (
         <Redirect

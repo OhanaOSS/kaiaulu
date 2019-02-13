@@ -2,11 +2,11 @@ import { FETCH_POSTS, NEW_POST, UPDATE_HEADERS} from './types';
 import Axios from 'axios';
 import store, {history} from '../store';
 
-export const fetchPosts = () => dispatch => {
+export const fetchCommentsByURL = (requestUrl) => dispatch => {
 
   let config = {
     // `url` is the server URL that will be used for the request
-    url: 'v1/posts',
+    url: requestUrl,
 
     // `method` is the request method to be used when making the request
     method: 'get',
