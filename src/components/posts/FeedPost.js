@@ -21,20 +21,15 @@ class FeedPost extends Component {
   constructor(props){
     super(props)
     this.state = {
-      comments: {},
-      reactions: {}
+      comments: [],
+      reactions: []
     }
   }
 
-  componentWillMount() {
-    // console.log(this.props, `CWM`)
-    const comments = contentFetcher(this.props.post.links.comments)
-    comments.then(result => this.setState({
-      comments: result
-    })
-    );
-    // const reactions = contentFetcher(this.props.post.links.reactions)
-    console.log(comments)
+  async componentDidMount() {
+    let commentPromise = contentFetcher(this.props.post.links.comments)
+    commentPromise.then(comments => this.setState({comments: comments}))
+    console.log(this.state.comments)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -53,11 +48,11 @@ class FeedPost extends Component {
           <Card.Img variant="top" src={`http://${store.getState().currentUser.baseUrl}${post.media}`} />
           <Card.Body>
               <Card.Text>{post.body}</Card.Text>
-              {console.log(this.props, this.state)}
+              {console.log(this.state)}
           </Card.Body>
         </Card>
         {/* <Reactions type={"post"} id={post.id}/> */}
-        {/* <Comments/> */}
+        <Comments comments={this.state.comments}/>
       </Wrapper>
     );
   }

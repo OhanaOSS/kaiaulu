@@ -5,8 +5,7 @@ import { UPDATE_HEADERS } from '../actions/types';
 import store from '../store';
 import Axios from 'axios';
 
-export async function contentFetcher(requestUrl) {
-  try {
+export const contentFetcher = (requestUrl) => {
     let config = {
       // `url` is the server URL that will be used for the request
       url: requestUrl,
@@ -32,17 +31,16 @@ export async function contentFetcher(requestUrl) {
     }
   
   
-    Axios(config)
+   let result = Axios(config)
       .then(res => {
         store.dispatch({
           type: UPDATE_HEADERS,
           headers: res.headers
-        });
-        console.log(res, res.data.data);
-        Promise.resolve(res);
+        })
+        // console.log(res, res.data.data)
+        return res.data.data
       })
-  } catch(error) {
-    console.log(error);
-    Promise.reject(error);
-  }
+      // console.log('result', result)
+      return Promise.resolve(result)
+      
 };
