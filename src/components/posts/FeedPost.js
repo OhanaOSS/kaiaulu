@@ -6,36 +6,58 @@ import {
   Row, Col,
   Card, Button
 } from 'react-bootstrap';
+import Comments from '../comments/Comments';
 import store, {history} from '../../store';
 import styled from "styled-components";
 import Axios from 'axios';
+import {contentFetcher, urlBuilder} from '../../utils/contentHelper';
 
-const Wrapper = styled(Card)`
+const Wrapper = styled.div`
   margin-bottom: 2rem;
 `
 
 
 class FeedPost extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      comments: {},
+      reactions: {}
+    }
+  }
 
   componentWillMount() {
-    console.log(this.props, `CWM`)
+    // console.log(this.props, `CWM`)
+    const comments = contentFetcher(this.props.post.links.comments)
+    comments.then(result => this.setState({
+      comments: result
+    })
+    );
+    // const reactions = contentFetcher(this.props.post.links.reactions)
+    console.log(comments)
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(this.props,nextProps, `CWRP`)
+    // console.log(this.props,nextProps, `CWRP`)
   }
 
 
 
   render() {
     const post = this.props.post
+    const poster = this.props.poster
     return (
       <Wrapper>
-        <Card.Img variant="top" src={`http://${store.getState().currentUser.baseUrl}${post.media}`} />
-        <Card.Body>
-            <Card.Text>{post.body}</Card.Text>
-            {console.log(this.props)}
-        </Card.Body>
+        <h6>{`${poster.name} ${poster.surname}`}</h6>
+        <Card>
+          <Card.Img variant="top" src={`http://${store.getState().currentUser.baseUrl}${post.media}`} />
+          <Card.Body>
+              <Card.Text>{post.body}</Card.Text>
+              {console.log(this.props, this.state)}
+          </Card.Body>
+        </Card>
+        {/* <Reactions type={"post"} id={post.id}/> */}
+        {/* <Comments/> */}
       </Wrapper>
     );
   }
