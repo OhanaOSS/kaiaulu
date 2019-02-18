@@ -21,8 +21,8 @@ export const urlBuilder = (hash) => {
   let parentID = hash["parent_id"]
   let parentType = hash["parent_type"]
   let requestType = hash["request_type"]
-
-  return `${apiVersion}/${parentType}/${parentID}/${requestType}`
+  const requestUrl = `${apiVersion}/${parentType}/${parentID}/${requestType}`.replace(/-/g, "_")
+  return requestUrl
 }
 
 export const contentFetcher = (requestUrl) => {
