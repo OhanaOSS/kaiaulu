@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import Comment from './Comment'
+import CommentForm from './CommentForm'
+
 
 export default class Comments extends Component {
+
   render() {
     const comments = this.props.comments.map(comment => (
       <Comment 
@@ -11,6 +14,7 @@ export default class Comments extends Component {
     ));
     return (
       <div>
+        <CommentForm/>
         {comments}
       </div>
     );

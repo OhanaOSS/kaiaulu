@@ -9,7 +9,7 @@ import styled from "styled-components";
 import Axios from 'axios';
 import {contentFetcher, urlBuilder} from '../../utils/contentHelper';
 import CommentForm from './CommentForm'
-import CommentReplies from './CommentReplies';
+
 
 
 const Wrapper = styled(Row)``
@@ -42,7 +42,7 @@ export default class Comments extends Component {
     let commentRepliesPromise = contentFetcher(urlBuilder({
       parent_id: this.props.comment.id,
       parent_type: "comments",
-      request_type: "comment_replys"
+      request_type: "comment_replies"
     }))
     commentRepliesPromise.then(commentReplies => this.setState({commentReplies: commentReplies}))
   }
@@ -53,14 +53,8 @@ export default class Comments extends Component {
 
 
   render() {
-    const content = this.props.comment.attributes
-    const poster = this.props.comment.relationships.member.data
-    const commentReplies = this.state.commentReplies.map(commentReply => (
-      <CommentReplies
-        key={commentReply.id}
-        commentReply={commentReply}
-      />  
-    ));
+    const content = this.props.commentReply.attributes
+    const poster = this.props.commentReply.relationships.member.data
 
     if (!content.media) {
       return (
@@ -75,9 +69,6 @@ export default class Comments extends Component {
             </Card.Body>
             {console.log(this.props)}
           </Card>
-          <CommentForm/>
-          {commentReplies}
-          <CommentForm/>
         </Wrapper>
       )
     } else {
@@ -100,8 +91,6 @@ export default class Comments extends Component {
           <Col sm={{ span: 10, offset: 2 }}>
             <CommentForm/>
           </Col>
-          {commentReplies}
-          <CommentForm/>
         </Wrapper>
       )
     }
