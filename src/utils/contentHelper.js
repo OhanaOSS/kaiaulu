@@ -5,6 +5,26 @@ import { UPDATE_HEADERS } from '../actions/types';
 import store from '../store';
 import Axios from 'axios';
 
+export const urlBuilder = (hash) => {
+  // This is a helper url builder for the requestUrl for contentFetcher
+  // it's configured to use content routes in hale.
+  // i.e. get /v1/comments/:comment_id/comment_replys
+
+  // It takes in options as a hash so when used it should be:
+  // urlBuilder({
+  //  parent_id: 1,
+  //  parent_type: "foo",
+  //  request_type: "bar"
+  // })
+
+  let apiVersion = "/v1"
+  let parentID = hash["parent_id"]
+  let parentType = hash["parent_type"]
+  let requestType = hash["request_type"]
+
+  return `${apiVersion}/${parentType}/${parentID}/${requestType}`
+}
+
 export const contentFetcher = (requestUrl) => {
     let config = {
       // `url` is the server URL that will be used for the request
@@ -44,3 +64,5 @@ export const contentFetcher = (requestUrl) => {
       return Promise.resolve(result)
       
 };
+
+module.exports = urlBuilder;
