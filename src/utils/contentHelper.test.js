@@ -1,6 +1,5 @@
 
-
-const urlBuilder = require('./contentHelper')
+import { urlBuilder } from './contentHelper';
 it('urlBuilder can correctly process options', () => {
   expect(urlBuilder({
     parent_id: 1,

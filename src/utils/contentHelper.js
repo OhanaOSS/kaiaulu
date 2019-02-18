@@ -64,5 +64,3 @@ export const contentFetcher = (requestUrl) => {
       return Promise.resolve(result)
       
 };
-
-module.exports = urlBuilder;
