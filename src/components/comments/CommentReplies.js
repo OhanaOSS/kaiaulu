@@ -7,7 +7,7 @@ import {
 import store, {history} from '../../store';
 import styled from "styled-components";
 import Axios from 'axios';
-import {contentFetcher, urlBuilder} from '../../utils/contentHelper';
+import {contentFetcher, urlBuilder, findMemberData} from '../../utils/contentHelper';
 import CommentForm from './CommentForm'
 
 
@@ -54,8 +54,8 @@ export default class Comments extends Component {
 
   render() {
     const content = this.props.commentReply.attributes
-    const poster = this.props.commentReply.relationships.member.data
-
+    const poster = findMemberData(this.props.commentReply.attributes["member-id"])
+    console.log(content,poster)
       return (
         <Wrapper>
           <PosterContainer as={Col} sm={{ span: 10, offset: 2 }}>

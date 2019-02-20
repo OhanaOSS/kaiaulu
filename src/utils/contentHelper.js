@@ -5,6 +5,8 @@ import { UPDATE_HEADERS } from '../actions/types';
 import store from '../store';
 import Axios from 'axios';
 
+// Requests
+
 export const urlBuilder = (hash) => {
   // This is a helper url builder for the requestUrl for contentFetcher
   // it's configured to use content routes in hale.
@@ -64,3 +66,14 @@ export const contentFetcher = (requestUrl) => {
       return Promise.resolve(result)
       
 };
+
+// User Processing
+
+export const findMemberData = (memberID) => {
+  // Take in Array and Map
+  // member.id is a str and memberID is an int.
+  const memberData = store.getState().members.items.find(member => member.id == memberID)
+
+  return memberData.attributes
+
+}

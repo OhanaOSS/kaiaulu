@@ -14,7 +14,7 @@ class Newsfeed extends Component {
     return (
         <Wrapper sm={6}>
             <NewsfeedStatusUpdater/>
-            <Posts/>>
+            <Posts/>
         </Wrapper>
     );
   }

@@ -1,12 +1,12 @@
-import { FETCH_POSTS, NEW_POST, UPDATE_HEADERS} from './types';
+import { FETCH_MEMBERS, UPDATE_HEADERS} from './types';
 import Axios from 'axios';
 import store, {history} from '../store';
 
-export const fetchPosts = () => dispatch => {
+export const fetchMembers = () => dispatch => {
 
   let config = {
     // `url` is the server URL that will be used for the request
-    url: 'v1/posts',
+    url: 'v1/members',
 
     // `method` is the request method to be used when making the request
     method: 'get',
@@ -33,7 +33,7 @@ export const fetchPosts = () => dispatch => {
     .then(res => {
       console.log(res, res.data.data)
       dispatch({
-        type: FETCH_POSTS,
+        type: FETCH_MEMBERS,
         payload: res.data.data
       })
       if (res.headers["access-token"] !== "") {
@@ -45,20 +45,3 @@ export const fetchPosts = () => dispatch => {
       }
     });
 };
-
-// export const createPost = postData => dispatch => {
-//   fetch(`${baseUrl}/posts`, {
-//     method: 'POST',
-//     headers: {
-//       'content-type': 'application/json'
-//     },
-//     body: JSON.stringify(postData)
-//   })
-//     .then(res => res.json())
-//     .then(post =>
-//       dispatch({
-//         type: NEW_POST,
-//         payload: post
-//       })
-//     );
-// };

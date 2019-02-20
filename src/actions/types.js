@@ -8,6 +8,7 @@ export const FETCH_COMMENTS_BY_URL = 'FETCH_COMMENTS_BY_URL';
 // Recipes
 
 // Member/User
+export const FETCH_MEMBERS = 'FETCH_MEMBERS';
 
 // Events
 
