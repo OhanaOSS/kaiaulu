@@ -37,15 +37,15 @@ export default class Comments extends Component {
       // 2: {id: "28", type: "comment-reply"}
 // type: "comment"
 
-  componentDidMount() {
+  // componentDidMount() {
 
-    let commentRepliesPromise = contentFetcher(urlBuilder({
-      parent_id: this.props.comment.id,
-      parent_type: "comments",
-      request_type: "comment_replies"
-    }))
-    commentRepliesPromise.then(commentReplies => this.setState({commentReplies: commentReplies}))
-  }
+  //   let commentRepliesPromise = contentFetcher(urlBuilder({
+  //     parent_id: this.props.comment.id,
+  //     parent_type: "comments",
+  //     request_type: "comment_replies"
+  //   }))
+  //   commentRepliesPromise.then(commentReplies => this.setState({commentReplies: commentReplies}))
+  // }
 
   componentWillReceiveProps(nextProps) {
     // console.log(this.props,nextProps, `CWRP`)
@@ -56,43 +56,17 @@ export default class Comments extends Component {
     const content = this.props.commentReply.attributes
     const poster = this.props.commentReply.relationships.member.data
 
-    if (!content.media) {
       return (
         <Wrapper>
-          <ImgContainer sm={2}>
-            <Image src="https://loremflickr.com/50/50/face,person" roundedCircle />
-          </ImgContainer>
-          <Card as={Col} sm={10}>
-            <Card.Body>
-              <Card.Text>{content.body}</Card.Text>
-              {console.log(this.state)}
-            </Card.Body>
-            {console.log(this.props)}
-          </Card>
-        </Wrapper>
-      )
-    } else {
-      return (
-        <Wrapper>
-          <PosterContainer>
-            <ImgContainer sm={2}>
-              <Image src="https://loremflickr.com/50/50/face,person" roundedCircle />
-            </ImgContainer>
-            <Col sm={10}>Member Name</Col>
+          <PosterContainer as={Col} sm={{ span: 10, offset: 2 }}>
+            <h6>{`${poster.name} ${poster.surname}`}</h6>
           </PosterContainer>
           <Card as={Col} sm={{ span: 10, offset: 2 }}>
-            <Card.Img variant="top" src={`http://${store.getState().currentUser.baseUrl}${content.media}`} />
             <Card.Body>
               <Card.Text>{content.body}</Card.Text>
-              {console.log(this.state)}
             </Card.Body>
-            {console.log(this.props)}
           </Card>
-          <Col sm={{ span: 10, offset: 2 }}>
-            <CommentForm/>
-          </Col>
         </Wrapper>
       )
-    }
   }
 }

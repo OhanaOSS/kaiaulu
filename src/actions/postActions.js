@@ -36,12 +36,17 @@ export const fetchPosts = () => dispatch => {
         type: FETCH_POSTS,
         payload: res.data.data
       })
-      dispatch({
-        type: UPDATE_HEADERS,
-        headers: res.headers
-      })
-    }
-    );
+      console.log("access-token",res.headers)
+      if (res.headers["access-token"] === "") {
+        console.log("if - access-token",res.headers["access-token"])
+      } else {
+        console.log("else - access-token",res.headers["access-token"])
+        dispatch({
+          type: UPDATE_HEADERS,
+          headers: res.headers
+        })
+      }
+    });
 };
 
 // export const createPost = postData => dispatch => {

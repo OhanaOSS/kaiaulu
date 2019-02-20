@@ -51,11 +51,17 @@ export default function(state = initialState, action) {
         currentHeader: action.headers
       };
     case UPDATE_HEADERS:
-      return {
-        ...state,
-        isAuthenticated: true,
-        currentHeader: action.headers
-      };
+      if (action.headers["access-token"] === "") {
+        return {
+          ...state
+        };
+      } else {
+        return {
+          ...state,
+          isAuthenticated: true,
+          currentHeader: action.headers
+        };
+      }
     default:
       return state;
   }
