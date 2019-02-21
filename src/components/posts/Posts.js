@@ -27,6 +27,7 @@ class Posts extends Component {
     const postItems = this.props.posts.map(post => (
       <FeedPost
         key={post.id}
+        meta={post}
         post={post.attributes}
         poster={post.relationships.member.data}
         relatedCommentsLink={post.relationships.comments.links.related}

@@ -21,10 +21,23 @@ export const urlBuilder = (hash) => {
 
   let apiVersion = "/v1"
   let parentID = hash["parent_id"]
-  let parentType = hash["parent_type"]
-  let requestType = hash["request_type"]
+  let parentType = pluralizeType(hash["parent_type"])
+  let requestType = pluralizeType(hash["request_type"])
   const requestUrl = `${apiVersion}/${parentType}/${parentID}/${requestType}`.replace(/-/g, "_")
   return requestUrl
+}
+
+const pluralizeType = (string) => {
+  switch (string) {
+    case "post":
+      return "posts"
+    case "comment":
+      return "comments"
+    case "comment_reply":
+      return "comment_replys"
+    default:
+      throw new Error(`${string} <- does not match case for pluralizeType.`)
+  }
 }
 
 export const contentFetcher = (requestUrl) => {

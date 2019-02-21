@@ -16,14 +16,23 @@ const Wrapper = styled(Row)``
 
 const ImgContainer = styled(Col)``
 const PosterContainer = styled(Row)``
+const CommentText = styled(Card.Text)`
+  color: red;
+`
 
 export default class Comments extends Component {
   constructor(props){
     super(props)
     this.state = {
       commentReplies: [],
-      commentRepliesreactions: []
+      commentRepliesreactions: [],
+      replyType: {
+        parentID: this.props.comment.id,
+        parentType: "comment",
+        requestType: "comment_reply"
+      }
     }
+    this.formHandler = this.formHandler.bind(this)
   }
 
 //   comment:
@@ -37,12 +46,14 @@ export default class Comments extends Component {
       // 2: {id: "28", type: "comment-reply"}
 // type: "comment"
 
-async componentDidMount() {
-    let commentRepliesPromise = contentFetcher(urlBuilder({
-      parent_id: this.props.comment.id,
-      parent_type: "comments",
-      request_type: "comment_replys"
-    }))
+componentDidMount() {
+  const url = urlBuilder({
+    parent_id: this.state.replyType.parentID,
+    parent_type: this.state.replyType.parentType,
+    request_type: this.state.replyType.requestType
+  })
+  console.log(url)
+    let commentRepliesPromise = contentFetcher(url)
     console.log(commentRepliesPromise)
     commentRepliesPromise.then(commentReplies => {
       this.setState({commentReplies: commentReplies})
@@ -50,8 +61,10 @@ async componentDidMount() {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
-    // console.log(this.props,nextProps, `CWRP`)
+  formHandler(callback){
+    this.setState({
+      commentReplies: [...this.state.commentReplies, callback]
+    })
   }
 
 
@@ -65,17 +78,19 @@ async componentDidMount() {
         comment={this.props.comment}
       />  
     ));
-
+    {console.log("Comment.js State:", this.state, "\nComment.js Props:", this.props)}
     if (!content.media) {
       return (
         <Wrapper>
-          <Col sm={{ span: 10, offset: 2 }}>{`${poster.name} ${poster.surname}`}</Col>
-          <Card as={Col} sm={{span: 10, offset: 2}}>
+          <PosterContainer as={Col} sm={{ span: 9, offset: 3 }}>
+            <h6>{`${poster.name} ${poster.surname}`}</h6>
+          </PosterContainer>
+          <Card as={Col} sm={{ span: 9, offset: 3 }}>
             <Card.Body>
-              <Card.Text>{content.body}</Card.Text>
+              <CommentText>{content.body}</CommentText>
             </Card.Body>
           </Card>
-          <CommentForm/>
+          <CommentForm type={this.state.replyType} formHandler={this.formHandler}/>
           {commentReplies}
         </Wrapper>
       )
@@ -88,11 +103,11 @@ async componentDidMount() {
           <Card as={Col} sm={{ span: 10, offset: 2 }}>
             <Card.Img variant="top" src={`http://${store.getState().currentUser.baseUrl}${content.media}`} />
             <Card.Body>
-              <Card.Text>{content.body}</Card.Text>
+              <CommentText>{content.body}</CommentText>
             </Card.Body>
           </Card>
           <Col sm={{ span: 10, offset: 2 }}>
-            <CommentForm/>
+            <CommentForm type={this.state.replyType} formHandler={this.formHandler}/>
           </Col>
           {commentReplies}
         </Wrapper>

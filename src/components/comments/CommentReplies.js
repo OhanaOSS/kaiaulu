@@ -12,58 +12,28 @@ import CommentForm from './CommentForm'
 
 
 
-const Wrapper = styled(Row)``
+const Wrapper = styled(Row)`
+  width: 100%;
+`
 
 const ImgContainer = styled(Col)``
 const PosterContainer = styled(Row)``
-
+const CommentReplyText = styled(Card.Text)`
+  font-size: 12px;
+  color: blue;
+`
 export default class Comments extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      commentReplies: [],
-      commentRepliesreactions: []
-    }
-  }
-
-//   comment:
-// attributes: {body: "Sed cum non. Molestiae veniam est.", edit: null, commentable-type: "Post", commentable-id: 10, member-id: 11, …}
-// id: "22"
-// relationships:
-  // comment-replies:
-    // data: Array(3)
-      // 0: {id: "26", type: "comment-reply"}
-      // 1: {id: "27", type: "comment-reply"}
-      // 2: {id: "28", type: "comment-reply"}
-// type: "comment"
-
-  // componentDidMount() {
-
-  //   let commentRepliesPromise = contentFetcher(urlBuilder({
-  //     parent_id: this.props.comment.id,
-  //     parent_type: "comments",
-  //     request_type: "comment_replies"
-  //   }))
-  //   commentRepliesPromise.then(commentReplies => this.setState({commentReplies: commentReplies}))
-  // }
-
-  componentWillReceiveProps(nextProps) {
-    // console.log(this.props,nextProps, `CWRP`)
-  }
-
-
   render() {
     const content = this.props.commentReply.attributes
     const poster = findMemberData(this.props.commentReply.attributes["member-id"])
-    console.log(content,poster)
       return (
         <Wrapper>
-          <PosterContainer as={Col} sm={{ span: 10, offset: 2 }}>
+          <PosterContainer as={Col} sm={{ span: 9, offset: 3 }}>
             <h6>{`${poster.name} ${poster.surname}`}</h6>
           </PosterContainer>
-          <Card as={Col} sm={{ span: 10, offset: 2 }}>
+          <Card as={Col} sm={{ span: 9, offset: 3 }}>
             <Card.Body>
-              <Card.Text>{content.body}</Card.Text>
+              <CommentReplyText>{content.body}</CommentReplyText>
             </Card.Body>
           </Card>
         </Wrapper>

@@ -22,14 +22,19 @@ class FeedPost extends Component {
     super(props)
     this.state = {
       comments: [],
-      reactions: []
+      reactions: [],
+      replyType: {
+        parentID: this.props.meta.id,
+        // currently singular as "post"
+        parentType: this.props.meta.type,
+        requestType: "comment"
+      }
     }
   }
 
   async componentDidMount() {
     let commentPromise = contentFetcher(this.props.post.links.comments)
     commentPromise.then(comments => this.setState({comments: comments}))
-    console.log(this.state.comments)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,11 +53,11 @@ class FeedPost extends Component {
           <Card.Img variant="top" src={`http://${store.getState().currentUser.baseUrl}${post.media}`} />
           <Card.Body>
               <Card.Text>{post.body}</Card.Text>
-              {console.log(this.state)}
+              {console.log("FeedPost State:", this.state, "\nFeedPost Props:", this.props)}
           </Card.Body>
         </Card>
         {/* <Reactions type={"post"} id={post.id}/> */}
-        <Comments comments={this.state.comments}/>
+        <Comments comments={this.state.comments} replyType={this.state.replyType}/>
       </Wrapper>
     );
   }
