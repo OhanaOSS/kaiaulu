@@ -35,6 +35,8 @@ const pluralizeType = (string) => {
       return "comments"
     case "comment_reply":
       return "comment_replys"
+    case "comment-reply":
+      return "comment_replys"
     case "reaction":
       return "reactions"
     default:

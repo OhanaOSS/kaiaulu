@@ -9,6 +9,7 @@ import styled from "styled-components";
 import Axios from 'axios';
 import {contentFetcher, urlBuilder, findMemberData} from '../../utils/contentHelper';
 import CommentForm from './CommentForm'
+import Reactions from '../reactions/Reactions';
 
 
 
@@ -24,6 +25,7 @@ const CommentReplyText = styled(Card.Text)`
 `
 export default class Comments extends Component {
   render() {
+    const meta = this.props.commentReply
     const content = this.props.commentReply.attributes
     const poster = findMemberData(this.props.commentReply.attributes["member-id"])
       return (
@@ -36,6 +38,7 @@ export default class Comments extends Component {
               <CommentReplyText>{content.body}</CommentReplyText>
             </Card.Body>
           </Card>
+          <Reactions type={meta.type} id={meta.id}/>
         </Wrapper>
       )
   }

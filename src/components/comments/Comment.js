@@ -10,6 +10,7 @@ import Axios from 'axios';
 import {contentFetcher, urlBuilder, findMemberData} from '../../utils/contentHelper';
 import CommentForm from './CommentForm'
 import CommentReplies from './CommentReplies';
+import Reactions from '../reactions/Reactions';
 
 
 const Wrapper = styled(Row)``
@@ -69,6 +70,7 @@ export default class Comments extends Component {
 
 
   render() {
+    const meta = this.props.comment
     const content = this.props.comment.attributes
     const poster = findMemberData(this.props.comment.attributes["member-id"])
     const commentReplies = this.state.commentReplies.map(commentReply => (
@@ -78,7 +80,7 @@ export default class Comments extends Component {
         comment={this.props.comment}
       />  
     ));
-    // {console.log("Comment.js State:", this.state, "\nComment.js Props:", this.props)}
+    {console.log("Comment.js State:", this.state, "\nComment.js Props:", this.props)}
     if (!content.media) {
       return (
         <Wrapper>
@@ -90,6 +92,7 @@ export default class Comments extends Component {
               <CommentText>{content.body}</CommentText>
             </Card.Body>
           </Card>
+          <Reactions type={meta.type} id={meta.id}/>
           <CommentForm type={this.state.replyType} formHandler={this.formHandler}/>
           {commentReplies}
         </Wrapper>
@@ -106,6 +109,7 @@ export default class Comments extends Component {
               <CommentText>{content.body}</CommentText>
             </Card.Body>
           </Card>
+          <Reactions type={meta.type} id={meta.id}/>
           <Col sm={{ span: 10, offset: 2 }}>
             <CommentForm type={this.state.replyType} formHandler={this.formHandler}/>
           </Col>
