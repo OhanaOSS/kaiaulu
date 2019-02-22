@@ -13,7 +13,7 @@ class ProfileSidebar extends Component {
     const currentUser = store.getState().currentUser.data
     return (
         <Wrapper sm={3}>
-        {console.log(currentUser)}
+        {/* {console.log(currentUser)} */}
             <Card>
                 <Card.Img variant="top" src="holder.js/100px180" />
                 <Card.Body>

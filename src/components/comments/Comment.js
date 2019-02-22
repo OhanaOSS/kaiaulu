@@ -46,18 +46,18 @@ export default class Comments extends Component {
       // 2: {id: "28", type: "comment-reply"}
 // type: "comment"
 
-componentDidMount() {
-  const url = urlBuilder({
-    parent_id: this.state.replyType.parentID,
-    parent_type: this.state.replyType.parentType,
-    request_type: this.state.replyType.requestType
-  })
-  console.log(url)
+  async componentDidMount() {
+    const url = urlBuilder({
+      parent_id: this.state.replyType.parentID,
+      parent_type: this.state.replyType.parentType,
+      request_type: this.state.replyType.requestType
+    })
+    // console.log(url)
     let commentRepliesPromise = contentFetcher(url)
-    console.log(commentRepliesPromise)
+    // console.log(commentRepliesPromise)
     commentRepliesPromise.then(commentReplies => {
       this.setState({commentReplies: commentReplies})
-      console.log(commentReplies)
+      // console.log(commentReplies)
     })
   }
 
@@ -78,7 +78,7 @@ componentDidMount() {
         comment={this.props.comment}
       />  
     ));
-    {console.log("Comment.js State:", this.state, "\nComment.js Props:", this.props)}
+    // {console.log("Comment.js State:", this.state, "\nComment.js Props:", this.props)}
     if (!content.media) {
       return (
         <Wrapper>

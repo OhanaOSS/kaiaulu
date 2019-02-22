@@ -7,6 +7,7 @@ import {
   Card, Button
 } from 'react-bootstrap';
 import Comments from '../comments/Comments';
+import Reactions from '../reactions/Reactions';
 import store, {history} from '../../store';
 import styled from "styled-components";
 import Axios from 'axios';
@@ -22,7 +23,6 @@ class FeedPost extends Component {
     super(props)
     this.state = {
       comments: [],
-      reactions: [],
       replyType: {
         parentID: this.props.meta.id,
         // currently singular as "post"
@@ -37,13 +37,8 @@ class FeedPost extends Component {
     commentPromise.then(comments => this.setState({comments: comments}))
   }
 
-  componentWillReceiveProps(nextProps) {
-    // console.log(this.props,nextProps, `CWRP`)
-  }
-
-
-
   render() {
+    const meta = this.props.meta
     const post = this.props.post
     const poster = this.props.poster
     return (
@@ -53,10 +48,10 @@ class FeedPost extends Component {
           <Card.Img variant="top" src={`http://${store.getState().currentUser.baseUrl}${post.media}`} />
           <Card.Body>
               <Card.Text>{post.body}</Card.Text>
-              {console.log("FeedPost State:", this.state, "\nFeedPost Props:", this.props)}
           </Card.Body>
         </Card>
-        {/* <Reactions type={"post"} id={post.id}/> */}
+        {/* {console.log("FeedPost.js State:", this.state, "\FeedPost.js Props:", this.props)} */}
+        <Reactions type={meta.type} id={meta.id}/>
         <Comments comments={this.state.comments} replyType={this.state.replyType}/>
       </Wrapper>
     );

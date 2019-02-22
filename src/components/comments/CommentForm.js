@@ -59,15 +59,15 @@ export default class CommentForm extends Component {
       }
       
       handleChange(e) {
-          console.log({ [e.target.name]: e.target.value })
+          // console.log({ [e.target.name]: e.target.value })
         this.setState({ [e.target.name]: e.target.value });
-        console.log(this.state)
+        // console.log(this.state)
       }
       
       async handleSubmit(e) {
         e.preventDefault();
         const form = e.currentTarget;
-        console.log(form.checkValidity())
+        // console.log(form.checkValidity())
         if (form.checkValidity() === false) {
           e.stopPropagation();
         }

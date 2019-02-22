@@ -31,7 +31,6 @@ class Posts extends Component {
         post={post.attributes}
         poster={post.relationships.member.data}
         relatedCommentsLink={post.relationships.comments.links.related}
-        reactions={post.relationships.reactions.data}
         comments={post.relationships.comments.data}
       />
     ));

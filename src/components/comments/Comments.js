@@ -15,14 +15,14 @@ export default class Comments extends Component {
   }
 
   formHandler(callback){
-    console.log(callback)
+    // console.log(callback)
     this.setState({
       comments: [...this.state.comments, callback]
     })
   }
 
   componentWillReceiveProps(nextProps){
-    console.log(nextProps)
+    // console.log(nextProps)
     if (nextProps.comments !== this.props.comments) {
       this.setState({
         comments: nextProps.comments
@@ -39,7 +39,7 @@ export default class Comments extends Component {
     ));
     return (
       <div>
-        {console.log("Comments.js State:", this.state, "\nComments.js Props:", this.props)}
+        {/* {console.log("Comments.js State:", this.state, "\nComments.js Props:", this.props)} */}
         <CommentForm type={this.state.replyType} formHandler={this.formHandler}/>
         {comments}
       </div>

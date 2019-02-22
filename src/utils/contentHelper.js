@@ -35,6 +35,8 @@ const pluralizeType = (string) => {
       return "comments"
     case "comment_reply":
       return "comment_replys"
+    case "reaction":
+      return "reactions"
     default:
       throw new Error(`${string} <- does not match case for pluralizeType.`)
   }
@@ -58,7 +60,7 @@ export const contentFetcher = (requestUrl) => {
     
       // `timeout` specifies the number of milliseconds before the request times out.
       // If the request takes longer than `timeout`, the request will be aborted.
-      timeout: 2000,
+      timeout: 3000,
     
       // `responseType` indicates the type of data that the server will respond with
       // options are 'arraybuffer', 'blob', 'document', 'json', 'text', 'stream'
