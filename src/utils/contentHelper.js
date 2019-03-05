@@ -8,6 +8,7 @@ import Axios from 'axios';
 // Requests
 
 export const urlBuilder = (hash) => {
+  console.log(hash)
   // This is a helper url builder for the requestUrl for contentFetcher
   // it's configured to use content routes in hale.
   // i.e. get /v1/comments/:comment_id/comment_replys
@@ -23,8 +24,18 @@ export const urlBuilder = (hash) => {
   let parentID = hash["parent_id"]
   let parentType = pluralizeType(hash["parent_type"])
   let requestType = pluralizeType(hash["request_type"])
-  const requestUrl = `${apiVersion}/${parentType}/${parentID}/${requestType}`.replace(/-/g, "_")
-  return requestUrl
+  let requestID
+  
+  if(hash["request_id"] === undefined){
+    const requestUrl = `${apiVersion}/${parentType}/${parentID}/${requestType}`.replace(/-/g, "_")
+    return requestUrl
+  } else {
+    requestID = hash["request_id"]
+    const requestUrl = `${apiVersion}/${parentType}/${parentID}/${requestType}/${requestID}`.replace(/-/g, "_")
+    return requestUrl
+  }
+  
+  
 }
 
 const pluralizeType = (string) => {
@@ -32,6 +43,8 @@ const pluralizeType = (string) => {
     case "post":
       return "posts"
     case "comment":
+      return "comments"
+    case "comments":
       return "comments"
     case "comment_reply":
       return "comment_replys"
@@ -117,7 +130,7 @@ export const contentPoster = (method, data, requestUrl) => {
     responseType: 'json', // default
   }
 
-
+  console.log(config)
  let result = Axios(config)
     .then(res => {
       store.dispatch({
