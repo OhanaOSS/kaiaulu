@@ -7,13 +7,15 @@ import {
 import store, {history} from '../../store';
 import styled from "styled-components";
 import Axios from 'axios';
-import {contentFetcher, urlBuilder, findMemberData} from '../../utils/contentHelper';
+import {contentPoster, contentFetcher, urlBuilder, findMemberData} from '../../utils/contentHelper';
 import CommentForm from './CommentForm'
 import CommentReplies from './CommentReplies';
 import Reactions from '../reactions/Reactions';
+import contentEditable from '../utils/contentEditable'
 
-
-const Wrapper = styled(Row)``
+const Wrapper = styled(Row)`
+  margin-top: .75rem;
+`
 
 const ImgContainer = styled(Col)``
 const PosterContainer = styled(Row)``
@@ -34,6 +36,7 @@ export default class Comments extends Component {
       }
     }
     this.formHandler = this.formHandler.bind(this)
+    this.handleEdit = this.handleEdit.bind(this)
   }
 
 //   comment:
@@ -68,11 +71,29 @@ export default class Comments extends Component {
     })
   }
 
+  handleEdit(callback){
+    const url = urlBuilder({
+      parent_id: this.state.replyType.parentID,
+      parent_type: this.state.replyType.parentType,
+    })
+    let data = {
+      "comment": {
+        "attributes":{
+          "body":	callback.value
+        }
+      }
+    }
+    contentPoster("patch", data, url)
+  }
+
 
   render() {
+    
+    const currentUserID = store.getState().currentUser.data.id
     const meta = this.props.comment
     const content = this.props.comment.attributes
     const poster = findMemberData(this.props.comment.attributes["member-id"])
+    let EditableText = contentEditable('p')
     const commentReplies = this.state.commentReplies.map(commentReply => (
       <CommentReplies
         key={commentReply.id}
@@ -80,21 +101,74 @@ export default class Comments extends Component {
         comment={this.props.comment}
       />  
     ));
-    {console.log("Comment.js State:", this.state, "\nComment.js Props:", this.props)}
-    if (!content.media) {
+    const StyledTextContainer = styled(Card.Body)`
+      p {
+        margin-bottom: 0;
+      }
+    `
+    
+    // {console.log("Comment.js State:", this.state, "\nComment.js Props:", this.props)}
+    if (!content.media && currentUserID === this.props.comment.attributes["member-id"]){
       return (
         <Wrapper>
           <PosterContainer as={Col} sm={{ span: 9, offset: 3 }}>
             <h6>{`${poster.name} ${poster.surname}`}</h6>
           </PosterContainer>
           <Card as={Col} sm={{ span: 9, offset: 3 }}>
-            <Card.Body>
+            <StyledTextContainer>
+              <EditableText object={meta} onSave={this.handleEdit} value={content.body}/>
+            </StyledTextContainer>
+          </Card>
+          <Col md={{span: 9, offset: 3}}>
+            <Reactions type={meta.type} id={meta.id}/>
+          </Col>
+          <Col md={{span: 9, offset: 3}}>
+          <CommentForm type={this.state.replyType} formHandler={this.formHandler}/>
+          </Col>
+          <Col md={{span: 9, offset: 3}}>
+            {commentReplies}
+          </Col>
+        </Wrapper>
+      )
+    } else if (currentUserID === this.props.comment.attributes["member-id"]){
+      return (
+        <Wrapper>
+          <PosterContainer as={Col} sm={{ span: 10, offset: 2 }}>
+            <h6>{`${poster.name} ${poster.surname}`}</h6>
+          </PosterContainer>
+          <Card as={Col} sm={{ span: 10, offset: 2 }}>
+            <Card.Img variant="top" src={`http://${store.getState().currentUser.baseUrl}${content.media}`} />
+            <StyledTextContainer>
               <CommentText>{content.body}</CommentText>
-            </Card.Body>
+            </StyledTextContainer>
           </Card>
           <Reactions type={meta.type} id={meta.id}/>
-          <CommentForm type={this.state.replyType} formHandler={this.formHandler}/>
+          <Col sm={{ span: 10, offset: 2 }}>
+            <CommentForm type={this.state.replyType} formHandler={this.formHandler}/>
+          </Col>
           {commentReplies}
+        </Wrapper>
+      )
+    } else if (!content.media) {
+      return (
+        <Wrapper>
+          <PosterContainer as={Col} sm={{ span: 9, offset: 3 }}>
+            <h6>{`${poster.name} ${poster.surname}`}</h6>
+          </PosterContainer>
+          <Card as={Col} sm={{ span: 9, offset: 3 }}>
+            <StyledTextContainer>
+              <CommentText>{content.body}</CommentText>
+            </StyledTextContainer>
+          </Card>
+          <Col md={{span: 9, offset: 3}}>
+            <Reactions type={meta.type} id={meta.id}/>
+          </Col>
+          <Col md={{span: 9, offset: 3}}>
+          <CommentForm type={this.state.replyType} formHandler={this.formHandler}/>
+          </Col>
+          <Col md={{span: 9, offset: 3}}>
+            {commentReplies}
+          </Col>
         </Wrapper>
       )
     } else {
@@ -105,9 +179,9 @@ export default class Comments extends Component {
           </PosterContainer>
           <Card as={Col} sm={{ span: 10, offset: 2 }}>
             <Card.Img variant="top" src={`http://${store.getState().currentUser.baseUrl}${content.media}`} />
-            <Card.Body>
+            <StyledTextContainer>
               <CommentText>{content.body}</CommentText>
-            </Card.Body>
+            </StyledTextContainer>
           </Card>
           <Reactions type={meta.type} id={meta.id}/>
           <Col sm={{ span: 10, offset: 2 }}>
