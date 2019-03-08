@@ -23,14 +23,18 @@ export const urlBuilder = (hash) => {
   let apiVersion = "/v1"
   let parentID = hash["parent_id"]
   let parentType = pluralizeType(hash["parent_type"])
-  let requestType = pluralizeType(hash["request_type"])
-  let requestID
+  let requestType
   
-  if(hash["request_id"] === undefined){
+  if(hash["request_id"] === undefined && hash["request_type"] === undefined){
+    const requestUrl = `${apiVersion}/${parentType}/${parentID}`.replace(/-/g, "_")
+    return requestUrl
+  } else if(hash["request_id"] === undefined){
+    requestType = pluralizeType(hash["request_type"])
     const requestUrl = `${apiVersion}/${parentType}/${parentID}/${requestType}`.replace(/-/g, "_")
     return requestUrl
   } else {
-    requestID = hash["request_id"]
+    requestType = pluralizeType(hash["request_type"])
+    let requestID = hash["request_id"]
     const requestUrl = `${apiVersion}/${parentType}/${parentID}/${requestType}/${requestID}`.replace(/-/g, "_")
     return requestUrl
   }
