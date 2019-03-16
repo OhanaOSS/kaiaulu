@@ -79,7 +79,7 @@ export const contentFetcher = (requestUrl) => {
     
       // `timeout` specifies the number of milliseconds before the request times out.
       // If the request takes longer than `timeout`, the request will be aborted.
-      timeout: 3000,
+      // timeout: 1000,
     
       // `responseType` indicates the type of data that the server will respond with
       // options are 'arraybuffer', 'blob', 'document', 'json', 'text', 'stream'
