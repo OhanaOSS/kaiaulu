@@ -69,6 +69,19 @@ class Reaction extends Component {
     this.handleClick = this.handleClick.bind(this)
   }
   handleClick(e){
+    // console.log('\nthis state:', this.state, '\nthis props',this.props)
+    debugger;
+    if (this.state.enabled) {
+      this.setState({
+        enabled: 'false',
+        count: this.state.count -= 1
+      })
+    } else {
+      this.setState({
+        enabled: 'true',
+        count: this.state.count += 1
+      })
+    }
     this.props.handleRequest({
       type: e.target.getAttribute('name'), 
       enabled: this.state.enabled
@@ -87,8 +100,9 @@ class Reaction extends Component {
 
 export class Heart extends Reaction {
   render() {
+    // console.log(this.props, this.state)
     return (
-      <EmojiContainer>
+      <EmojiContainer className={"reaction"}>
         <Emoji onClick={this.handleClick} name={"heart"}>❤️</Emoji><Count count={this.state.count}/>
       </EmojiContainer>
       )
@@ -97,8 +111,9 @@ export class Heart extends Reaction {
 
 export class Like extends Reaction {
   render() {
+    // console.log(this.props, this.state)
     return (
-      <EmojiContainer>
+      <EmojiContainer className={"reaction"}>
         <Emoji onClick={this.handleClick} name={"like"}>👍</Emoji><Count count={this.state.count}/>
       </EmojiContainer>
       )
@@ -108,7 +123,7 @@ export class Like extends Reaction {
 export class Dislike extends Reaction {
   render() {
     return (
-      <EmojiContainer>
+      <EmojiContainer className={"reaction"}>
         <Emoji onClick={this.handleClick} name={"dislike"}>👎</Emoji><Count count={this.state.count}/>
       </EmojiContainer>
       )
@@ -118,7 +133,7 @@ export class Dislike extends Reaction {
 export class Haha extends Reaction {
   render() {
     return (
-      <EmojiContainer>
+      <EmojiContainer className={"reaction"}>
         <Emoji onClick={this.handleClick} name={"haha"}>🤣</Emoji><Count count={this.state.count}/>
       </EmojiContainer>
       )
@@ -127,9 +142,8 @@ export class Haha extends Reaction {
 
 export class Wow extends Reaction {
   render() {
-    console.log("wow state count",this.state.count)
     return (
-      <EmojiContainer>
+      <EmojiContainer className={"reaction"}>
         <Emoji onClick={this.handleClick} name={"wow"}>😮</Emoji><Count count={this.state.count}/>
       </EmojiContainer>
       )
@@ -139,7 +153,7 @@ export class Wow extends Reaction {
 export class Sad extends Reaction {
   render() {
     return (
-      <EmojiContainer>
+      <EmojiContainer className={"reaction"}>
         <Emoji onClick={this.handleClick} name={"sad"}>😢</Emoji><Count count={this.state.count}/>
       </EmojiContainer>
       )
@@ -149,7 +163,7 @@ export class Sad extends Reaction {
 export class Angry extends Reaction {
   render() {
     return (
-      <EmojiContainer>
+      <EmojiContainer className={"reaction"}>
         <Emoji onClick={this.handleClick} name={"angry"}>😠</Emoji><Count count={this.state.count}/>
       </EmojiContainer>
       )

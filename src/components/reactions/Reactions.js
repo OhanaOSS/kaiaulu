@@ -69,7 +69,44 @@ export default class Reactions extends Component {
   }
 
   async handleRequest(callback) {
-    console.log(callback)
+    console.log(this.state,this.props, callback)
+    if(this.isThisEmojiEnabled(callback.type)){
+      // if true, then remove active and replace with new active type
+      if(callback.enabled){
+        console.log("foobar")
+        // if type is same as callback decrment
+        let newEmotives = this.state.emotives
+        newEmotives[this.state.activeEmoji] = newEmotives[this.state.activeEmoji] -= 1
+        this.setState({
+          emotive: newEmotives,
+          activeEmoji: null,
+          enabled: true
+        })
+      } else {
+        // else swap for new one
+        console.log("foobar")
+        let newEmotives = this.state.emotives
+        newEmotives[this.state.activeEmoji] = newEmotives[this.state.activeEmoji] -= 1
+        newEmotives[callback.type] = newEmotives[callback.type] += 1
+        this.setState({
+          emotive: newEmotives,
+          activeEmoji: callback.type,
+          enabled: true
+        })
+      }
+      
+    } else {
+      // if false, add like normal
+      console.log("foobar")
+      let newEmotives = this.state.emotives
+      newEmotives[callback.type] = newEmotives[callback.type] += 1
+      this.setState({
+        emotive: newEmotives,
+        activeEmoji: callback.type,
+        enabled: true
+      })
+    }
+
   }
 
   isThisEmojiEnabled(str){
@@ -117,10 +154,17 @@ export default class Reactions extends Component {
       }
     }
   }
+  shouldComponentUpdate(nextProps, nextState){
+    if(nextState !== this.state || nextProps !== this.props){
+      return true
+    } else {
+      return false
+    }
+  }
 
   render() {
-    if (this.props.id == 10) {console.log("\n ID 10 EXPECT WOW","\n STATE:",this.state,"\n PROPS:",this.props,"\n WOW COUNT", )}
-    
+    // if (this.props.id == 10) {console.log("\n ID 10 EXPECT WOW","\n STATE:",this.state,"\n PROPS:",this.props,"\n WOW COUNT", )}
+    console.log(this.props)
     return (
       <ReactionsWrapper>
         <li as={Button}>

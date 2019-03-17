@@ -94,7 +94,12 @@ export default class CommentForm extends Component {
 
   render() {
     const { validated } = this.state;
-
+    const StyledFormGroup = styled(Form.Group)`
+    display: inline-flex;
+    button {
+      margin-left: .25rem;
+    }
+`
     return (
         <Wrapper
             noValidate
@@ -102,7 +107,7 @@ export default class CommentForm extends Component {
             onSubmit={e => this.handleSubmit(e)}
         >
         <Form.Row>
-          <Form.Group as={Col} sm={12} controlId="validationCustom01">
+          <StyledFormGroup as={Col} sm={12} controlId="validationCustom01">
             <Form.Control
               required
               name="status"
@@ -114,14 +119,9 @@ export default class CommentForm extends Component {
               onChange={this.handleChange}
             />
             <Form.Control.Feedback>Submitted!</Form.Control.Feedback>
-          </Form.Group>
+            <Button className={'btn-sm'} type="submit">Post Comment</Button>
+          </StyledFormGroup>
         </Form.Row>
-        <Form.Row>
-            <Form.Group as={Col} sm={{span: 3, offset: 9}} controlId="validationCustom02">
-                <Button type="submit">Post Status</Button>
-            </Form.Group>
-        </Form.Row>
-
         </Wrapper>
     );
   }

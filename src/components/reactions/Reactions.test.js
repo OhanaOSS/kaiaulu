@@ -3,13 +3,13 @@ import { shallow, mount } from 'enzyme';
 import Reactions from './Reactions';
 import {Reaction, Heart, Like, Dislike, Haha, Wow, Sad, Angry, Count} from './Reaction';
 
-describe('Reactions', () => {
-  it('renders properly', () => {
-    const component = shallow(<Reactions type={"comments"} id={1}/>);
+// describe('Reactions', () => {
+//   it('renders properly', () => {
+//     const component = shallow(<Reactions type={"comments"} id={1}/>);
   
-    expect(component).toMatchSnapshot();
-  });
-});
+//     expect(component).toMatchSnapshot();
+//   });
+// });
 
 
 describe('activeEmojis being switched', () => {
@@ -30,28 +30,28 @@ describe('activeEmojis being switched', () => {
   });
 });
 
-describe('activeEmoji being added and removed', () => {
-  it('switch from wow(0) => wow(1)', () => {
-    const component = mount(<Reactions type={"comments"} id={1}/>);
-    const reactionWrapper = component.find('form.reaction').children().first();
-    let counter = component.find('Count').first().props().count;
+// describe('activeEmoji being added and removed', () => {
+//   it('switch from wow(0) => wow(1)', () => {
+//     const component = mount(<Reactions type={"comments"} id={1}/>);
+//     const reactionWrapper = component.find('form.reaction').children().first();
+//     let counter = component.find('Count').first().props().count;
     
     
-    expect(counter).toBe(0)
-    reactionWrapper.simulate('click')
-    counter = component.find('Count').first().props().count;
-    expect(counter).toBe(1)
-  });
-  it('switch from wow(1) => wow(0)', () => {
-    const component = mount(<Reactions type={"comments"} id={1}/>);
-    const reactionWrapper = component.find('form.reaction').children().first();
-    reactionWrapper.simulate('click')
-    let counter = component.find('Count').first().props().count;
+//     expect(counter).toBe(0)
+//     reactionWrapper.simulate('click')
+//     counter = component.find('Count').first().props().count;
+//     expect(counter).toBe(1)
+//   });
+//   it('switch from wow(1) => wow(0)', () => {
+//     const component = mount(<Reactions type={"comments"} id={1}/>);
+//     const reactionWrapper = component.find('form.reaction').children().first();
+//     reactionWrapper.simulate('click')
+//     let counter = component.find('Count').first().props().count;
     
     
-    expect(counter).toBe(1)
-    reactionWrapper.simulate('click')
-    counter = component.find('Count').first().props().count;
-    expect(counter).toBe(0)
-  });
-});
+//     expect(counter).toBe(1)
+//     reactionWrapper.simulate('click')
+//     counter = component.find('Count').first().props().count;
+//     expect(counter).toBe(0)
+//   });
+// });

@@ -6,7 +6,7 @@
     "axios": "^0.18.0",
     "axios-debug-log": "^0.4.0",
     "connected-react-router": "^6.3.0",
-    "history": "^4.7.2",
+    "history": "^4.9.0",
     "react": "^16.7.0",
     "react-bootstrap": "^1.0.0-beta.5",
     "react-dom": "^16.7.0",
@@ -22,7 +22,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -34,6 +40,9 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
+    "enzyme-to-json": "^3.3.5",
     "react-test-renderer": "^16.8.3"
   }
 }
