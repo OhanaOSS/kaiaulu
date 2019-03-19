@@ -111,21 +111,21 @@ export default class Comments extends Component {
     if (!content.media && currentUserID === this.props.comment.attributes["member-id"]){
       return (
         <Wrapper>
-          <PosterContainer as={Col} sm={{ span: 9, offset: 3 }}>
+          <PosterContainer as={Col} md={{span: 10, offset: 2}}>
             <h6>{`${poster.name} ${poster.surname}`}</h6>
           </PosterContainer>
-          <Card as={Col} sm={{ span: 9, offset: 3 }}>
+          <Card as={Col} md={{span: 10, offset: 2}}>
             <StyledTextContainer>
               <EditableText object={meta} onSave={this.handleEdit} value={content.body}/>
             </StyledTextContainer>
           </Card>
-          <Col md={{span: 9, offset: 3}}>
+          <Col md={{span: 10, offset: 2}}>
             <Reactions type={meta.type} id={meta.id}/>
           </Col>
-          <Col md={{span: 9, offset: 3}}>
+          <Col md={{span: 10, offset: 2}}>
           <CommentForm type={this.state.replyType} formHandler={this.formHandler}/>
           </Col>
-          <Col md={{span: 9, offset: 3}}>
+          <Col md={{span: 10, offset: 2}}>
             {commentReplies}
           </Col>
         </Wrapper>
@@ -133,17 +133,19 @@ export default class Comments extends Component {
     } else if (currentUserID === this.props.comment.attributes["member-id"]){
       return (
         <Wrapper>
-          <PosterContainer as={Col} sm={{ span: 10, offset: 2 }}>
+          <PosterContainer as={Col} md={{span: 10, offset: 2}}>
             <h6>{`${poster.name} ${poster.surname}`}</h6>
           </PosterContainer>
-          <Card as={Col} sm={{ span: 10, offset: 2 }}>
+          <Card as={Col} md={{span: 10, offset: 2}}>
             <Card.Img variant="top" src={`http://${store.getState().currentUser.baseUrl}${content.media}`} />
             <StyledTextContainer>
               <CommentText>{content.body}</CommentText>
             </StyledTextContainer>
           </Card>
-          <Reactions type={meta.type} id={meta.id}/>
-          <Col sm={{ span: 10, offset: 2 }}>
+          <Col md={{span: 10, offset: 2}}>
+            <Reactions type={meta.type} id={meta.id}/>
+          </Col>
+          <Col md={{span: 10, offset: 2}}>
             <CommentForm type={this.state.replyType} formHandler={this.formHandler}/>
           </Col>
           {commentReplies}
@@ -152,21 +154,21 @@ export default class Comments extends Component {
     } else if (!content.media) {
       return (
         <Wrapper>
-          <PosterContainer as={Col} sm={{ span: 9, offset: 3 }}>
+          <PosterContainer as={Col} md={{span: 10, offset: 2}}>
             <h6>{`${poster.name} ${poster.surname}`}</h6>
           </PosterContainer>
-          <Card as={Col} sm={{ span: 9, offset: 3 }}>
+          <Card as={Col} md={{span: 10, offset: 2}}>
             <StyledTextContainer>
               <CommentText>{content.body}</CommentText>
             </StyledTextContainer>
           </Card>
-          <Col md={{span: 9, offset: 3}}>
+          <Col md={{span: 10, offset: 2}}>
             <Reactions type={meta.type} id={meta.id}/>
           </Col>
-          <Col md={{span: 9, offset: 3}}>
+          <Col md={{span: 10, offset: 2}}>
           <CommentForm type={this.state.replyType} formHandler={this.formHandler}/>
           </Col>
-          <Col md={{span: 9, offset: 3}}>
+          <Col md={{span: 10, offset: 2}}>
             {commentReplies}
           </Col>
         </Wrapper>
@@ -174,17 +176,19 @@ export default class Comments extends Component {
     } else {
       return (
         <Wrapper>
-          <PosterContainer as={Col} sm={{ span: 10, offset: 2 }}>
+          <PosterContainer as={Col} md={{span: 10, offset: 2}}>
             <h6>{`${poster.name} ${poster.surname}`}</h6>
           </PosterContainer>
-          <Card as={Col} sm={{ span: 10, offset: 2 }}>
+          <Card as={Col} md={{span: 10, offset: 2}}>
             <Card.Img variant="top" src={`http://${store.getState().currentUser.baseUrl}${content.media}`} />
             <StyledTextContainer>
               <CommentText>{content.body}</CommentText>
             </StyledTextContainer>
           </Card>
-          <Reactions type={meta.type} id={meta.id}/>
-          <Col sm={{ span: 10, offset: 2 }}>
+          <Col md={{span: 10, offset: 2}}>
+            <Reactions type={meta.type} id={meta.id}/>
+          </Col>
+          <Col md={{span: 10, offset: 2}}>
             <CommentForm type={this.state.replyType} formHandler={this.formHandler}/>
           </Col>
           {commentReplies}
