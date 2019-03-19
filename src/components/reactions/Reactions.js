@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import {Reaction} from './Reaction';
 import {contentFetcher, contentPoster, urlBuilder} from '../../utils/contentHelper'
 import {capitalizeFirstLetter} from '../../utils/dataHelpers'
-import {
-  Row, Col,
-  Card, Button, Form, InputGroup
-} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import styled from 'styled-components';
 import store from '../../store';
 
@@ -64,7 +61,7 @@ export default class Reactions extends Component {
     this.emojiMapper = this.emojiMapper.bind(this)
     this.checkForActiveEmoji = this.checkForActiveEmoji.bind(this)
     this.createSelectedEmoji = this.createSelectedEmoji.bind(this)
-    this.deleteSelectedEmoji = this.deleteSelectedEmoji.bind(this)
+    this.deleteActiveEmoji = this.deleteActiveEmoji.bind(this)
   }
   
   componentDidMount() {
@@ -73,9 +70,7 @@ export default class Reactions extends Component {
       parent_type: this.props.type,
       request_type: "reaction"
     })
-    console.log(url)
     contentFetcher(url).then(reactions => this.emojiMapper(reactions)).then(processedReactions => {
-    console.log(processedReactions)
     this.setState({
       data: processedReactions.data,
       emotives: processedReactions.emotives,
@@ -103,11 +98,11 @@ export default class Reactions extends Component {
     } else if (newEmotives[clickCallback.type].active) {
       newEmotives[clickCallback.type].active = null
       newEmotives[clickCallback.type].count -= 1
-      this.deleteSelectedEmoji(clickCallback)
+      this.deleteActiveEmoji()
     }
 
     this.setState({
-      emotives: newEmotives,
+      emotives: newEmotives
     })
   }
 
@@ -127,7 +122,7 @@ export default class Reactions extends Component {
     }
     contentPoster("post", data, url).then(newReaction => this.setState({currentUserEmoji: newReaction.id}))
   }
-  deleteSelectedEmoji(callback){
+  deleteActiveEmoji(){
     const url = urlBuilder({
       parent_type: "reactions",
       parent_id: this.state.currentUserEmoji
@@ -136,7 +131,6 @@ export default class Reactions extends Component {
   }
 
   emojiMapper(data){
-    console.log(data)
     var emotives = {
         heart: {
           count: 0, 
@@ -174,7 +168,6 @@ export default class Reactions extends Component {
       var currentMemberID = store.getState().currentUser.data.id
       emotives[emotive].count += 1
       if (currentMemberID === memberID){
-        console.log(emoji, currentMemberID, memberID)
         currentUserEmoji = emoji.id
         emotives[emotive].active = true
       }
@@ -194,19 +187,11 @@ export default class Reactions extends Component {
   }
 
   render() {
-    // if (this.props.id == 10) {console.log("\n ID 10 EXPECT WOW","\n STATE:",this.state,"\n PROPS:",this.props,"\n WOW COUNT", )}
-    console.log(this.props, this.state)
     const reactions = Object.keys(this.state.emotives).map((key, index) => (
       <li key={index} as={Button}>
         <Reaction active={this.state.emotives[key].active} type={key} count={this.state.emotives[key].count} handleRequest={this.handleRequest}/>
       </li>
     ))
-    console.log(reactions)
-    // this.state.emotives.map(emoji => (
-    //   <li as={Button}>
-    //     <Reaction active={emoji.active} type={emoji} handleRequest={this.handleRequest} enabled={this.isThisEmojiEnabled("heart")} count={this.state.emotives.heart}/>
-    //   </li>
-    // ))
     return (
       <ReactionsWrapper>
         {reactions}
