@@ -24,3 +24,13 @@ it('urlBuilder can correctly process options with id', () => {
     parent_type: "comments",
   })).toBe("/v1/comments/1")
 });
+
+it('urlBuilder can correctly process options with just parent type', () => {
+  expect(urlBuilder({
+    parent_type: "reactions",
+  })).toBe("/v1/reactions")
+});
+
+it('urlBuilder can correctly process with no options', () => {
+  expect(urlBuilder({})).toBe("/v1")
+});

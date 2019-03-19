@@ -59,113 +59,87 @@ class Count extends Component {
   }
 }
 
-class Reaction extends Component {
+export class Reaction extends Component {
   constructor(props){
     super(props)
     this.state = {
-      enabled: false,
+      active: null,
       count: 0
     }
     this.handleClick = this.handleClick.bind(this)
   }
   handleClick(e){
     // console.log('\nthis state:', this.state, '\nthis props',this.props)
-    debugger;
     if (this.state.enabled) {
       this.setState({
-        enabled: 'false',
+        active: 'null',
         count: this.state.count -= 1
       })
     } else {
       this.setState({
-        enabled: 'true',
+        active: 'true',
         count: this.state.count += 1
       })
     }
     this.props.handleRequest({
-      type: e.target.getAttribute('name'), 
-      enabled: this.state.enabled
+      type: e.target.getAttribute('name'),
+      active: e.target.getAttribute('active')
     })
   }
   componentWillReceiveProps(nextProps) {
     if(nextProps.count !== this.state.count) {
       this.setState({count: nextProps.count})
     }
-    if(nextProps.enabled !== this.state.enabled) {
-      this.setState({enabled: nextProps.enabled})
+    if(nextProps.active !== this.state.active) {
+      this.setState({active: nextProps.active})
     }
   }
-}
-
-
-export class Heart extends Reaction {
-  render() {
-    // console.log(this.props, this.state)
-    return (
-      <EmojiContainer className={"reaction"}>
-        <Emoji onClick={this.handleClick} name={"heart"}>❤️</Emoji><Count count={this.state.count}/>
-      </EmojiContainer>
-      )
-  }
-}
-
-export class Like extends Reaction {
-  render() {
-    // console.log(this.props, this.state)
-    return (
-      <EmojiContainer className={"reaction"}>
-        <Emoji onClick={this.handleClick} name={"like"}>👍</Emoji><Count count={this.state.count}/>
-      </EmojiContainer>
-      )
-  }
-}
-
-export class Dislike extends Reaction {
-  render() {
-    return (
-      <EmojiContainer className={"reaction"}>
-        <Emoji onClick={this.handleClick} name={"dislike"}>👎</Emoji><Count count={this.state.count}/>
-      </EmojiContainer>
-      )
-  }
-}
-
-export class Haha extends Reaction {
-  render() {
-    return (
-      <EmojiContainer className={"reaction"}>
-        <Emoji onClick={this.handleClick} name={"haha"}>🤣</Emoji><Count count={this.state.count}/>
-      </EmojiContainer>
-      )
-  }
-}
-
-export class Wow extends Reaction {
-  render() {
-    return (
-      <EmojiContainer className={"reaction"}>
-        <Emoji onClick={this.handleClick} name={"wow"}>😮</Emoji><Count count={this.state.count}/>
-      </EmojiContainer>
-      )
-  }
-}
-
-export class Sad extends Reaction {
-  render() {
-    return (
-      <EmojiContainer className={"reaction"}>
-        <Emoji onClick={this.handleClick} name={"sad"}>😢</Emoji><Count count={this.state.count}/>
-      </EmojiContainer>
-      )
-  }
-}
-
-export class Angry extends Reaction {
-  render() {
-    return (
-      <EmojiContainer className={"reaction"}>
-        <Emoji onClick={this.handleClick} name={"angry"}>😠</Emoji><Count count={this.state.count}/>
-      </EmojiContainer>
-      )
+  render(){
+    switch (this.props.type) {
+      case "heart":
+        return (
+          <EmojiContainer className={"reaction"}>
+            <Emoji onClick={this.handleClick} name={"heart"}>❤️</Emoji><Count count={this.state.count}/>
+          </EmojiContainer>
+          )
+      case "like":
+        return (
+          <EmojiContainer className={"reaction"}>
+            <Emoji onClick={this.handleClick} name={"like"}>👍</Emoji><Count count={this.state.count}/>
+          </EmojiContainer>
+          )
+      case "dislike":
+        return (
+          <EmojiContainer className={"reaction"}>
+            <Emoji onClick={this.handleClick} name={"dislike"}>👎</Emoji><Count count={this.state.count}/>
+          </EmojiContainer>
+          )
+      case "wow":
+        return (
+          <EmojiContainer className={"reaction"}>
+            <Emoji onClick={this.handleClick} name={"wow"}>😮</Emoji><Count count={this.state.count}/>
+          </EmojiContainer>
+          )
+      case "haha":
+          return (
+            <EmojiContainer className={"reaction"}>
+              <Emoji onClick={this.handleClick} name={"haha"}>🤣</Emoji><Count count={this.state.count}/>
+            </EmojiContainer>
+            )
+      case "sad":
+        return (
+          <EmojiContainer className={"reaction"}>
+            <Emoji onClick={this.handleClick} name={"sad"}>😢</Emoji><Count count={this.state.count}/>
+          </EmojiContainer>
+          )
+      case "angry":
+        return (
+          <EmojiContainer className={"reaction"}>
+            <Emoji onClick={this.handleClick} name={"angry"}>😠</Emoji><Count count={this.state.count}/>
+          </EmojiContainer>
+          )
+      default:
+        return <></>
+    }
   }
 }

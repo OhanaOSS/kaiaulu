@@ -15,6 +15,7 @@ import {Reaction, Heart, Like, Dislike, Haha, Wow, Sad, Angry, Count} from './Re
 describe('activeEmojis being switched', () => {
   it('switch from heart(1), like(0) to heart(0), like(1)', () => {
     let component = mount(<Reactions type={"comments"} id={1}/>);
+    debugger;
     const heartWrapper = component.find('form.reaction').at(0).children().at(0);
     const likeWrapper = component.find('form.reaction').at(1).children().at(0);
     heartWrapper.simulate('click')

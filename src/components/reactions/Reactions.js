@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import {Heart, Like, Dislike, Haha, Wow, Sad, Angry} from './Reaction';
-import {contentFetcher, urlBuilder} from '../../utils/contentHelper'
+import {Reaction} from './Reaction';
+import {contentFetcher, contentPoster, urlBuilder} from '../../utils/contentHelper'
+import {capitalizeFirstLetter} from '../../utils/dataHelpers'
 import {
   Row, Col,
   Card, Button, Form, InputGroup
 } from 'react-bootstrap';
 import styled from 'styled-components';
+import store from '../../store';
 
 const ReactionsWrapper = styled.ul`
   margin-top: .25rem;
@@ -27,22 +29,44 @@ export default class Reactions extends Component {
     this.state = {
       data: [],
       emotives: {
-        heart: 0, 
-        like: 0, 
-        dislike: 0, 
-        haha: 0, 
-        wow: 0, 
-        sad: 0, 
-        angry: 0
+        heart: {
+          count: 0, 
+          active: null
+        },
+        like: {
+          count: 0, 
+          active: null
+        },
+        dislike: {
+          count: 0, 
+          active: null
+        },
+        haha: {
+          count: 0, 
+          active: null
+        },
+        wow: {
+          count: 0, 
+          active: null
+        },
+        sad: {
+          count: 0, 
+          active: null
+        },
+        angry: {
+          count: 0, 
+          active: null
+        }
       },
-      enabled: false,
-      activeEmoji: null
+      currentUserEmoji: null
     }
     this.handleRequest = this.handleRequest.bind(this)
     this.emojiMapper = this.emojiMapper.bind(this)
-    this.isThisEmojiEnabled = this.isThisEmojiEnabled.bind(this)
+    this.checkForActiveEmoji = this.checkForActiveEmoji.bind(this)
+    this.createSelectedEmoji = this.createSelectedEmoji.bind(this)
+    this.deleteSelectedEmoji = this.deleteSelectedEmoji.bind(this)
   }
-
+  
   componentDidMount() {
     const url = urlBuilder({
       parent_id: this.props.id,
@@ -51,107 +75,114 @@ export default class Reactions extends Component {
     })
     console.log(url)
     contentFetcher(url).then(reactions => this.emojiMapper(reactions)).then(processedReactions => {
-      console.log(processedReactions)
-      if(processedReactions.enabled) {
-        this.setState({
-          data: processedReactions.data,
-          emotives: processedReactions.emotives,
-          enabled: processedReactions.enabled,
-          activeEmoji: processedReactions.activeEmoji
-        })
-      } else {
-        this.setState({
-          data: processedReactions.data,
-          emotives: processedReactions.emotives
-        })
-      }
+    console.log(processedReactions)
+    this.setState({
+      data: processedReactions.data,
+      emotives: processedReactions.emotives,
+      currentUserEmoji: processedReactions.currentUserEmoji
+    })
     })
   }
 
   async handleRequest(callback) {
-    console.log(this.state,this.props, callback)
-    if(this.isThisEmojiEnabled(callback.type)){
-      // if true, then remove active and replace with new active type
-      if(callback.enabled){
-        console.log("foobar")
-        // if type is same as callback decrment
-        let newEmotives = this.state.emotives
-        newEmotives[this.state.activeEmoji] = newEmotives[this.state.activeEmoji] -= 1
-        this.setState({
-          emotive: newEmotives,
-          activeEmoji: null,
-          enabled: true
-        })
-      } else {
-        // else swap for new one
-        console.log("foobar")
-        let newEmotives = this.state.emotives
-        newEmotives[this.state.activeEmoji] = newEmotives[this.state.activeEmoji] -= 1
-        newEmotives[callback.type] = newEmotives[callback.type] += 1
-        this.setState({
-          emotive: newEmotives,
-          activeEmoji: callback.type,
-          enabled: true
-        })
-      }
-      
-    } else {
-      // if false, add like normal
-      console.log("foobar")
-      let newEmotives = this.state.emotives
-      newEmotives[callback.type] = newEmotives[callback.type] += 1
-      this.setState({
-        emotive: newEmotives,
-        activeEmoji: callback.type,
-        enabled: true
-      })
-    }
-
+    this.checkForActiveEmoji(callback)
   }
 
-  isThisEmojiEnabled(str){
-    if (this.state.activeEmoji && this.state.activeEmoji === str) {
-      return true
-    } else {
-      return false
+  checkForActiveEmoji(clickCallback){
+    let newEmotives = this.state.emotives
+    Object.keys(this.state.emotives).map((key) => {
+      if (this.state.emotives[key].active && key !== clickCallback.type){
+        newEmotives[key].active = null
+        newEmotives[key].count -= 1
+      }
+    })
+    if (!newEmotives[clickCallback.type].active) {
+      newEmotives[clickCallback.type].active = true
+      newEmotives[clickCallback.type].count += 1
+      this.createSelectedEmoji(clickCallback)
+    } else if (newEmotives[clickCallback.type].active) {
+      newEmotives[clickCallback.type].active = null
+      newEmotives[clickCallback.type].count -= 1
+      this.deleteSelectedEmoji(clickCallback)
     }
+
+    this.setState({
+      emotives: newEmotives,
+    })
+  }
+
+  createSelectedEmoji(callback){
+    const url = urlBuilder({
+      parent_type: "reactions"
+    })
+    let data = {
+      "reaction":{
+        "attributes":{
+          "member_id": store.getState().currentUser.data.id,
+          "emotive": callback.type,
+          "interaction_type": capitalizeFirstLetter(this.props.type),
+          "interaction_id": this.props.id
+        }
+      }
+    }
+    contentPoster("post", data, url).then(newReaction => this.setState({currentUserEmoji: newReaction.id}))
+  }
+  deleteSelectedEmoji(callback){
+    const url = urlBuilder({
+      parent_type: "reactions",
+      parent_id: this.state.currentUserEmoji
+    })
+    contentPoster("delete", {}, url).then(this.setState({currentUserEmoji: null}))
   }
 
   emojiMapper(data){
+    console.log(data)
     var emotives = {
-      heart: 0, 
-      like: 0, 
-      dislike: 0, 
-      haha: 0, 
-      wow: 0, 
-      sad: 0, 
-      angry: 0
-    }
-    let isCurrentMember
-    let activeEmoji
-
+        heart: {
+          count: 0, 
+          active: null
+        },
+        like: {
+          count: 0, 
+          active: null
+        },
+        dislike: {
+          count: 0, 
+          active: null
+        },
+        haha: {
+          count: 0, 
+          active: null
+        },
+        wow: {
+          count: 0, 
+          active: null
+        },
+        sad: {
+          count: 0, 
+          active: null
+        },
+        angry: {
+          count: 0, 
+          active: null
+        }
+      }
+    let currentUserEmoji = null
     data.map(emoji => {
       var emotive = emoji.attributes["emotive"]
       var memberID = emoji.attributes["member-id"]
-      var currentMemberID = 12
-      emotives[emotive] += 1
+      var currentMemberID = store.getState().currentUser.data.id
+      emotives[emotive].count += 1
       if (currentMemberID === memberID){
-        isCurrentMember = true
-        activeEmoji = emotive
+        console.log(emoji, currentMemberID, memberID)
+        currentUserEmoji = emoji.id
+        emotives[emotive].active = true
       }
     })
-    if(isCurrentMember){
-      return {
-        data: data,
-        emotives: emotives,
-        enabled: true,
-        activeEmoji: activeEmoji
-      }
-    } else {
-      return {
-        data: data,
-        emotives: emotives
-      }
+    return {
+      data: data,
+      emotives: emotives,
+      currentUserEmoji: currentUserEmoji
     }
   }
   shouldComponentUpdate(nextProps, nextState){
@@ -164,30 +195,21 @@ export default class Reactions extends Component {
 
   render() {
     // if (this.props.id == 10) {console.log("\n ID 10 EXPECT WOW","\n STATE:",this.state,"\n PROPS:",this.props,"\n WOW COUNT", )}
-    console.log(this.props)
+    console.log(this.props, this.state)
+    const reactions = Object.keys(this.state.emotives).map((key, index) => (
+      <li key={index} as={Button}>
+        <Reaction active={this.state.emotives[key].active} type={key} count={this.state.emotives[key].count} handleRequest={this.handleRequest}/>
+      </li>
+    ))
+    console.log(reactions)
+    // this.state.emotives.map(emoji => (
+    //   <li as={Button}>
+    //     <Reaction active={emoji.active} type={emoji} handleRequest={this.handleRequest} enabled={this.isThisEmojiEnabled("heart")} count={this.state.emotives.heart}/>
+    //   </li>
+    // ))
     return (
       <ReactionsWrapper>
-        <li as={Button}>
-          <Heart handleRequest={this.handleRequest} enabled={this.isThisEmojiEnabled("heart")} count={this.state.emotives.heart}/>
-        </li>
-        <li as={Button}>
-          <Like handleRequest={this.handleRequest} enabled={this.isThisEmojiEnabled("like")} count={this.state.emotives.like}/>
-        </li>
-        <li as={Button}>
-          <Dislike handleRequest={this.handleRequest} enabled={this.isThisEmojiEnabled("dislike")} count={this.state.emotives.dislike}/>
-        </li>
-        <li as={Button}>
-          <Haha handleRequest={this.handleRequest} enabled={this.isThisEmojiEnabled("haha")} count={this.state.emotives.haha}/>
-        </li>
-        <li as={Button}>
-          <Wow handleRequest={this.handleRequest} enabled={this.isThisEmojiEnabled("wow")} count={this.state.emotives.wow}/>
-        </li>
-         <li as={Button}>
-          <Sad handleRequest={this.handleRequest} enabled={this.isThisEmojiEnabled("sad")} count={this.state.emotives.sad}/>
-        </li>
-        <li as={Button}>
-          <Angry handleRequest={this.handleRequest} enabled={this.isThisEmojiEnabled("angry")} count={this.state.emotives.angry}/>
-        </li>
+        {reactions}
       </ReactionsWrapper>
     )
   }

@@ -21,19 +21,30 @@ export const urlBuilder = (hash) => {
   // })
 
   let apiVersion = "/v1"
-  let parentID = hash["parent_id"]
-  let parentType = pluralizeType(hash["parent_type"])
-  let requestType
   
-  if(hash["request_id"] === undefined && hash["request_type"] === undefined){
+  
+  if (hash["parent_type"] === undefined && hash["parent_id"] === undefined && hash["request_type"] === undefined && hash["request_id"] === undefined) {
+    const requestUrl = `${apiVersion}`
+    return requestUrl
+  } else if(hash["parent_id"] === undefined && hash["request_type"] === undefined && hash["request_id"] === undefined) {
+    let parentType = pluralizeType(hash["parent_type"])
+    const requestUrl = `${apiVersion}/${parentType}`.replace(/-/g, "_")
+    return requestUrl
+  } else if(hash["request_type"] === undefined && hash["request_id"] === undefined){
+    let parentID = hash["parent_id"]
+    let parentType = pluralizeType(hash["parent_type"])
     const requestUrl = `${apiVersion}/${parentType}/${parentID}`.replace(/-/g, "_")
     return requestUrl
   } else if(hash["request_id"] === undefined){
-    requestType = pluralizeType(hash["request_type"])
+    let parentID = hash["parent_id"]
+    let parentType = pluralizeType(hash["parent_type"])
+    let requestType = pluralizeType(hash["request_type"])
     const requestUrl = `${apiVersion}/${parentType}/${parentID}/${requestType}`.replace(/-/g, "_")
     return requestUrl
   } else {
-    requestType = pluralizeType(hash["request_type"])
+    let parentID = hash["parent_id"]
+    let parentType = pluralizeType(hash["parent_type"])
+    let requestType = pluralizeType(hash["request_type"])
     let requestID = hash["request_id"]
     const requestUrl = `${apiVersion}/${parentType}/${parentID}/${requestType}/${requestID}`.replace(/-/g, "_")
     return requestUrl
@@ -55,6 +66,8 @@ const pluralizeType = (string) => {
     case "comment-reply":
       return "comment_replys"
     case "reaction":
+      return "reactions"
+    case "reactions":
       return "reactions"
     default:
       throw new Error(`${string} <- does not match case for pluralizeType.`)
@@ -142,7 +155,12 @@ export const contentPoster = (method, data, requestUrl) => {
         headers: res.headers
       })
       // console.log(res, res.data.data)
-      return res.data.data
+      if(res.status === 204){
+        return {}
+      } else {
+        return res.data.data
+      }
+      
     })
     // console.log('result', result)
     return Promise.resolve(result)
