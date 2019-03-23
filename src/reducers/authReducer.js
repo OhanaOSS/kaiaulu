@@ -1,11 +1,13 @@
-import { UPDATE_HEADERS, VALIDATE_TOKEN_SUCESS, VALIDATE_TOKEN_FAILURE, SIGN_OUT, NEW_SIGN_IN, NEW_SIGN_UP_WITH_NEW_FAMILY } from '../actions/types';
+import { SET_FAMILIES, UPDATE_HEADERS, VALIDATE_TOKEN_SUCESS, VALIDATE_TOKEN_FAILURE, SIGN_OUT, NEW_SIGN_IN, NEW_SIGN_UP_WITH_NEW_FAMILY } from '../actions/types';
 
 const initialState = {
   baseUrl: '',
   currentHeader: {},
   data: {},
   isAuthenticated: false,
-  isLoggedIn: false
+  isLoggedIn: false,
+  authFamilies: [],
+  selectedFamily: null
 };
 
 export default function(state = initialState, action) {
@@ -62,6 +64,12 @@ export default function(state = initialState, action) {
           currentHeader: action.headers
         };
       }
+    case SET_FAMILIES:
+      return {
+        ...state,
+        authFamilies: action.payload.authFamilies,
+        selectedFamily: action.payload.selectedFamily
+      };
     default:
       return state;
   }

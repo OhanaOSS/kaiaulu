@@ -8,7 +8,6 @@ import Axios from 'axios';
 // Requests
 
 export const urlBuilder = (hash) => {
-  console.log(hash)
   // This is a helper url builder for the requestUrl for contentFetcher
   // it's configured to use content routes in hale.
   // i.e. get /v1/comments/:comment_id/comment_replys
@@ -69,6 +68,10 @@ const pluralizeType = (string) => {
       return "reactions"
     case "reactions":
       return "reactions"
+    case "memeber": case "members":
+      return "members"
+    case "family": case "authorized_families":
+      return "authorized_families"
     default:
       throw new Error(`${string} <- does not match case for pluralizeType.`)
   }
@@ -106,10 +109,10 @@ export const contentFetcher = (requestUrl) => {
           type: UPDATE_HEADERS,
           headers: res.headers
         })
-        // console.log(res, res.data.data)
+        // 
         return res.data.data
       })
-      // console.log('result', result)
+      // 
       return Promise.resolve(result)
       
 };
@@ -147,14 +150,14 @@ export const contentPoster = (method, data, requestUrl) => {
     responseType: 'json', // default
   }
 
-  console.log(config)
+  
  let result = Axios(config)
     .then(res => {
       store.dispatch({
         type: UPDATE_HEADERS,
         headers: res.headers
       })
-      // console.log(res, res.data.data)
+      // 
       if(res.status === 204){
         return {}
       } else {
@@ -162,7 +165,7 @@ export const contentPoster = (method, data, requestUrl) => {
       }
       
     })
-    // console.log('result', result)
+    // 
     return Promise.resolve(result)
     
 };

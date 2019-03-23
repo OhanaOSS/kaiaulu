@@ -31,13 +31,13 @@ export const fetchPosts = () => dispatch => {
 
   Axios(config)
     .then(res => {
-      // console.log(res, res.data.data)
+      // 
       dispatch({
         type: FETCH_POSTS,
         payload: res.data.data
       })
       if (res.headers["access-token"] !== "") {
-        // console.log("headers", res.headers["access-token"])
+        // 
         dispatch({
           type: UPDATE_HEADERS,
           headers: res.headers
