@@ -51,7 +51,6 @@ class Count extends Component {
 
   render() {
     if (this.state.count > 0) {
-      console.log("count",this.state.count)
       return <CountBubble>{this.state.count}</CountBubble>
     } else {
       return <></>
@@ -69,7 +68,6 @@ export class Reaction extends Component {
     this.handleClick = this.handleClick.bind(this)
   }
   handleClick(e){
-    // console.log('\nthis state:', this.state, '\nthis props',this.props)
     if (this.state.enabled) {
       this.setState({
         active: 'null',

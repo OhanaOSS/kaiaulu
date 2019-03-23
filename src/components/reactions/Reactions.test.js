@@ -22,10 +22,10 @@ describe('activeEmojis being switched', () => {
     likeWrapper.simulate('click')
     let heartCounter = component.find('form.reaction').at(0).children().at(1).props().count
     let likeCounter = component.find('form.reaction').at(1).children().at(1).props().count
-    // console.log(heartWrapper.debug())
-    // console.log(likeWrapper.debug())
-    // console.log(heartCounter)
-    // console.log(likeCounter)
+    // )
+    // )
+    // 
+    // 
     expect(likeCounter).toBe(1)
     expect(heartCounter).toBe(0)
   });

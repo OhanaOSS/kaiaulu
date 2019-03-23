@@ -9,6 +9,12 @@ import { capitalizeFirstLetter } from '../../utils/dataHelpers'
 import store from '../../store'
 
 const Wrapper = styled(Form)``
+const StyledFormGroup = styled(Form.Group)`
+  display: inline-flex;
+  button {
+    margin-left: .25rem;
+  }
+`
 
 export default class CommentForm extends Component {
 
@@ -59,15 +65,12 @@ export default class CommentForm extends Component {
       }
       
       handleChange(e) {
-          // console.log({ [e.target.name]: e.target.value })
         this.setState({ [e.target.name]: e.target.value });
-        // console.log(this.state)
       }
       
-      async handleSubmit(e) {
+      handleSubmit(e) {
         e.preventDefault();
         const form = e.currentTarget;
-        // console.log(form.checkValidity())
         if (form.checkValidity() === false) {
           e.stopPropagation();
         }
@@ -94,12 +97,6 @@ export default class CommentForm extends Component {
 
   render() {
     const { validated } = this.state;
-    const StyledFormGroup = styled(Form.Group)`
-    display: inline-flex;
-    button {
-      margin-left: .25rem;
-    }
-`
     return (
         <Wrapper
             noValidate
@@ -112,7 +109,7 @@ export default class CommentForm extends Component {
               required
               name="status"
               as="textarea"
-              value={this.state.staus}
+              value={this.state.status}
               rows="1"
               resize="vertical"
               placeholder="Comment here..."

@@ -56,12 +56,9 @@ export default class Comments extends Component {
       parent_type: this.state.replyType.parentType,
       request_type: this.state.replyType.requestType
     })
-    // console.log(url)
     let commentRepliesPromise = contentFetcher(url)
-    // console.log(commentRepliesPromise)
     commentRepliesPromise.then(commentReplies => {
       this.setState({commentReplies: commentReplies})
-      // console.log(commentReplies)
     })
   }
 
@@ -106,8 +103,6 @@ export default class Comments extends Component {
         margin-bottom: 0;
       }
     `
-    
-    // {console.log("Comment.js State:", this.state, "\nComment.js Props:", this.props)}
     if (!content.media && currentUserID === this.props.comment.attributes["member-id"]){
       return (
         <Wrapper>

@@ -28,7 +28,7 @@ export default class CommentReply extends Component {
     this.handleEdit = this.handleEdit.bind(this)
   }
   handleEdit(callback){
-    console.log(this.props, this.state)
+    
     const url = urlBuilder({
       parent_id: this.props.comment.id,
       parent_type: this.props.comment.type,
@@ -46,7 +46,7 @@ export default class CommentReply extends Component {
   };
   
   render() {
-    console.log(this.props)
+    
     let EditableText = contentEditable('p')
     const meta = this.props.commentReply
     const content = this.props.commentReply.attributes

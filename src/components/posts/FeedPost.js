@@ -50,7 +50,6 @@ class FeedPost extends Component {
               <Card.Text>{post.body}</Card.Text>
           </Card.Body>
         </Card>
-        {/* {console.log("FeedPost.js State:", this.state, "\FeedPost.js Props:", this.props)} */}
         <Reactions type={meta.type} id={meta.id}/>
         <Comments comments={this.state.comments} replyType={this.state.replyType}/>
       </Wrapper>

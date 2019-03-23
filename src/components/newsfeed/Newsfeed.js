@@ -13,7 +13,7 @@ class Newsfeed extends Component {
   render() {
     return (
         <Wrapper sm={6}>
-            <NewsfeedStatusUpdater/>
+            <NewsfeedStatusUpdater key={"statusUpdater"}/>
             <Posts/>
         </Wrapper>
     );
