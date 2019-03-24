@@ -54,7 +54,7 @@ export const urlBuilder = (hash) => {
 
 const pluralizeType = (string) => {
   switch (string) {
-    case "post":
+    case "post": case "posts":
       return "posts"
     case "comment":
       return "comments"
@@ -153,6 +153,60 @@ export const contentPoster = (method, data, requestUrl) => {
   
  let result = Axios(config)
     .then(res => {
+      store.dispatch({
+        type: UPDATE_HEADERS,
+        headers: res.headers
+      })
+      // 
+      if(res.status === 204){
+        return {}
+      } else {
+        return res.data.data
+      }
+      
+    })
+    // 
+    return Promise.resolve(result)
+    
+};
+
+export const fileUpload = (method, data, requestUrl) => {
+  let config = {
+    // `url` is the server URL that will be used for the request
+    url: requestUrl,
+
+    // `method` is the request method to be used when making the request
+    method: method,
+  
+    // `baseURL` will be prepended to `url` unless `url` is absolute.
+    // It can be convenient to set `baseURL` for an instance of axios to pass relative URLs
+    // to methods of that instance.
+    baseURL: `http://${store.getState().currentUser.baseUrl}`,
+  
+    // `headers` are custom headers to be sent
+    headers: store.getState().currentUser.currentHeader,
+  
+    // `data` is the data to be sent as the request body
+    // Only applicable for request methods 'PUT', 'POST', and 'PATCH'
+    // When no `transformRequest` is set, must be of one of the following types:
+    // - string, plain object, ArrayBuffer, ArrayBufferView, URLSearchParams
+    // - Browser only: FormData, File, Blob
+    // - Node only: Stream, Buffer
+    data: data,
+
+    // `timeout` specifies the number of milliseconds before the request times out.
+    // If the request takes longer than `timeout`, the request will be aborted.
+    timeout: 2000,
+  
+    // `responseType` indicates the type of data that the server will respond with
+    // options are 'arraybuffer', 'blob', 'document', 'json', 'text', 'stream'
+    responseType: 'json', // default
+  }
+  config.headers['Content-Type'] = 'multipart/form-data'
+  
+ let result = Axios(config)
+    .then(res => {
+      console.log(res.headers)
       store.dispatch({
         type: UPDATE_HEADERS,
         headers: res.headers
