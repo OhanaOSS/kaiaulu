@@ -1,31 +1,80 @@
 import React, { Component } from 'react';
 import {
   Row, Col,
-  Card, Button
+  Card, Button, Image
 } from 'react-bootstrap';
 import styled from "styled-components";
 import store from "../../store";
+import { urlBuilder, contentFetcher } from '../../utils/contentHelper'
+import Contacts from './profile_sidebar/Contacts'
+import Addresses from './profile_sidebar/Addresses'
+import PersonalData from './profile_sidebar/PersonalData'
 
 const Wrapper = styled(Col)``
 
+const StyledImage = styled.img`
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 80px;
+  margin: 0 auto;
+`
+const StyledCard = styled(Card)`
+
+`
+const Name = styled.div`
+  margin: 0 auto;
+`
+const NickName = (data) => {
+  const StyledNickName = styled.small`
+    margin: 0 auto;
+  `
+  console.log(data)
+  if (data.nickname) {
+    return <StyledNickName>{`"${data.nickname}"`}</StyledNickName>
+  } else {
+    return <StyledNickName>{`"Test"`}</StyledNickName>
+  }
+}
+
 class ProfileSidebar extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      profile: null
+    }
+  }
+  componentDidMount(){
+    contentFetcher(urlBuilder({
+      parent_id: store.getState().currentUser.data.id,
+      parent_type: "members"
+    })).then(res => this.setState({profile: res}))
+  }
   render() {
     const currentUser = store.getState().currentUser.data
-    return (
+    if (this.state.profile === null) {
+      return (
         <Wrapper sm={3}>
-            <Card>
-                <Card.Img variant="top" src="holder.js/100px180" />
-                <Card.Body>
-                    <Card.Title>{`${currentUser.name} ${currentUser.surname}`}</Card.Title>
-                    <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of
-                    the card's content.
-                    </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-            </Card>
+            <StyledCard>
+                  <StyledImage src={`http://${store.getState().currentUser.baseUrl}/images/default_avatar.png`} rounded/>
+                  <Name>{`${currentUser.name} ${currentUser.surname}`}</Name>
+            </StyledCard>
         </Wrapper>
-    );
+      );  
+    } else {
+      return (
+        <Wrapper sm={3}>
+            <StyledCard>
+                  <StyledImage src={`http://${store.getState().currentUser.baseUrl}/images/default_avatar.png`} rounded/>
+                  <Name>{`${currentUser.name} ${currentUser.surname}`}</Name>
+                  <NickName nickname={this.state.profile.attributes.nickname}/>
+                  <hr/>
+                  <Contacts data={this.state.profile.attributes.contacts}/>
+                  <Addresses data={this.state.profile.attributes.addresses}/>
+                  <PersonalData data={this.state.profile}/>
+            </StyledCard>
+        </Wrapper>
+      ); 
+    }
   }
 }
 

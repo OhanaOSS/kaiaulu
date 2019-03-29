@@ -13,6 +13,7 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case NEW_SIGN_IN:
+      window.localStorage.setItem('headers', action.headers);
       return {
         ...state,
         isAuthenticated: true,
@@ -22,6 +23,7 @@ export default function(state = initialState, action) {
         data: action.payload
       };
     case NEW_SIGN_UP_WITH_NEW_FAMILY:
+      window.localStorage.setItem('headers', action.headers);
       return {
         ...state,
         isAuthenticated: true,
@@ -46,6 +48,7 @@ export default function(state = initialState, action) {
         currentHeader: {}
       };
     case VALIDATE_TOKEN_SUCESS:
+      window.localStorage.setItem('headers', action.headers);
       return {
         ...state,
         isAuthenticated: true,
@@ -58,6 +61,7 @@ export default function(state = initialState, action) {
           ...state
         };
       } else {
+        window.localStorage.setItem('headers', action.headers);
         return {
           ...state,
           isAuthenticated: true,
