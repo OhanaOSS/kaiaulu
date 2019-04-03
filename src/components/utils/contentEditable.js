@@ -1,8 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
+import styled from 'styled-components'
 
 export default function contentEditable(WrappedComponent) {
-
+  const StyledWrappedComponent = styled(WrappedComponent)`
+    &:focus {
+      background: linen;
+    }
+  `
   return class extends React.Component {
 
     state = {
@@ -32,11 +37,49 @@ export default function contentEditable(WrappedComponent) {
         editing: false
       }, () => {
         if (this.isValueChanged()) {
-          this.props.onSave({value: this.domElm.textContent})
-          console.log('Value is changed', this.domElm.textContent);
+          console.log(this.props)
+          if (this.props.name) {
+            this.props.onSave({
+              value: this.domElm.textContent,
+              name: this.props.name
+            })
+            console.log('Value is changed', this.domElm.textContent);
+          } else if (this.props.address) {
+            let addressType = this.domElm.textContent.match(/^[^:]+/g)[0]
+            let newValue = this.domElm.textContent.match(/(?:\s+)(\s?.*)/g)[0]
+            console.log(addressType, newValue)
+            this.props.onSave({
+              value: newValue,
+              type: addressType
+            })
+            console.log(this.domElm.textContent)
+          } else if (this.props.contact) {
+            if (this.domElm.textContent.length > 0) {
+              let contactType = this.domElm.textContent.match(/^[^:]+/g)[0].trim(0)
+              let newValue = this.domElm.textContent.match(/(?:\s+)(\s?.*)/g)[0].trim(0)
+              console.log(contactType, newValue)
+              this.props.onSave({
+                value: newValue,
+                type: contactType
+              })
+              console.log('Value is changed', this.domElm.textContent)
+            } else {
+              this.setForDelete()
+            }
+          } else {
+            this.props.onSave({value: this.domElm.textContent})
+            console.log('Value is changed', this.domElm.textContent); 
+          }
         }
       });
     };
+
+    setForDelete = () => {
+      this.props.onSave({
+        value: null,
+        type: this.props.value.props.children.match(/(?:\s+)(\s?.*)/g)[0].trim(0)
+      })
+    }
 
     cancel = () => {
       this.setState({
@@ -65,7 +108,7 @@ export default function contentEditable(WrappedComponent) {
         editOnClick = this.props.editOnClick;
       }
       return (
-        <WrappedComponent
+        <StyledWrappedComponent
           className={editing ? 'editing' : ''}
           onClick={editOnClick ? this.toggleEdit : undefined}
           contentEditable={editing}
@@ -77,7 +120,7 @@ export default function contentEditable(WrappedComponent) {
           {...this.props}
       >
         {this.props.value}
-      </WrappedComponent>
+      </StyledWrappedComponent>
       )
     }
   }

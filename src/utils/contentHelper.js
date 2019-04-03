@@ -68,7 +68,7 @@ const pluralizeType = (string) => {
       return "reactions"
     case "reactions":
       return "reactions"
-    case "memeber": case "members":
+    case "member": case "members":
       return "members"
     case "family": case "authorized_families":
       return "authorized_families"

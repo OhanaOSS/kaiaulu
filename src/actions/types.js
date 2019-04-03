@@ -1,6 +1,7 @@
 // Posts
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const NEW_POST = 'NEW_POST';
+export const REMOVE_POST = 'REMOVE_POST';
 
 // Comments
 export const FETCH_COMMENTS_BY_URL = 'FETCH_COMMENTS_BY_URL';

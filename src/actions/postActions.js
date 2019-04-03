@@ -1,4 +1,4 @@
-import { FETCH_POSTS, NEW_POST, UPDATE_HEADERS} from './types';
+import { FETCH_POSTS, REMOVE_POST, UPDATE_HEADERS} from './types';
 import Axios from 'axios';
 import store, {history} from '../store';
 
@@ -44,6 +44,15 @@ export const fetchPosts = () => dispatch => {
         })
       }
     });
+};
+
+export const removePost = (id) => dispatch => {
+  console.log(id)
+  dispatch({
+    type: REMOVE_POST,
+    payload: id
+  })
+
 };
 
 // export const createPost = postData => dispatch => {

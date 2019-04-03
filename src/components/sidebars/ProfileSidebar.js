@@ -28,7 +28,6 @@ const NickName = (data) => {
   const StyledNickName = styled.small`
     margin: 0 auto;
   `
-  console.log(data)
   if (data.nickname) {
     return <StyledNickName>{`"${data.nickname}"`}</StyledNickName>
   } else {
@@ -63,6 +62,7 @@ class ProfileSidebar extends Component {
     } else {
       return (
         <Wrapper sm={3}>
+        {console.log(this.state)}
             <StyledCard>
                   <StyledImage src={`http://${store.getState().currentUser.baseUrl}/images/default_avatar.png`} rounded/>
                   <Name>{`${currentUser.name} ${currentUser.surname}`}</Name>
