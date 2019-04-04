@@ -18,7 +18,6 @@ export default function(state = initialState, action) {
         item: action.payload
       };
     case REMOVE_POST:
-      console.log(state, action)
       return {
         ...state,
         items: state.items.filter(post => action.payload !== post.id)

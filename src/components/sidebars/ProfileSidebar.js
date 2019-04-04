@@ -6,9 +6,6 @@ import {
 import styled from "styled-components";
 import store from "../../store";
 import { urlBuilder, contentFetcher } from '../../utils/contentHelper'
-import Contacts from './profile_sidebar/Contacts'
-import Addresses from './profile_sidebar/Addresses'
-import PersonalData from './profile_sidebar/PersonalData'
 
 const Wrapper = styled(Col)``
 
@@ -50,7 +47,6 @@ class ProfileSidebar extends Component {
   }
   render() {
     const currentUser = store.getState().currentUser.data
-    if (this.state.profile === null) {
       return (
         <Wrapper sm={3}>
             <StyledCard>
@@ -59,22 +55,6 @@ class ProfileSidebar extends Component {
             </StyledCard>
         </Wrapper>
       );  
-    } else {
-      return (
-        <Wrapper sm={3}>
-        {console.log(this.state)}
-            <StyledCard>
-                  <StyledImage src={`http://${store.getState().currentUser.baseUrl}/images/default_avatar.png`} rounded/>
-                  <Name>{`${currentUser.name} ${currentUser.surname}`}</Name>
-                  <NickName nickname={this.state.profile.attributes.nickname}/>
-                  <hr/>
-                  <Contacts data={this.state.profile.attributes.contacts}/>
-                  <Addresses data={this.state.profile.attributes.addresses}/>
-                  <PersonalData data={this.state.profile}/>
-            </StyledCard>
-        </Wrapper>
-      ); 
-    }
   }
 }
 

@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import Comment from './Comment'
 import {
   Row, Col,
-  Card, Button, Image
+  Card
 } from 'react-bootstrap';
 import store, {history} from '../../store';
 import styled from "styled-components";
-import Axios from 'axios';
 import {contentPoster, contentFetcher, urlBuilder, findMemberData} from '../../utils/contentHelper';
+import {isEmpty} from '../../utils/dataHelpers';
 import CommentForm from './CommentForm'
 import CommentReplies from './CommentReplies';
 import Reactions from '../reactions/Reactions';
@@ -16,9 +15,13 @@ import contentEditable from '../utils/contentEditable'
 const Wrapper = styled(Row)`
   margin-top: .75rem;
 `
-
-const ImgContainer = styled(Col)``
-const PosterContainer = styled(Row)``
+const PosterContainer = styled(Row)`
+  display: inline-flex;
+  width: 100%;
+  & > h6 {
+    flex: 1 0 20%;
+  }
+`
 const CommentText = styled(Card.Text)`
   color: red;
 `
@@ -37,6 +40,7 @@ export default class Comments extends Component {
     }
     this.formHandler = this.formHandler.bind(this)
     this.handleEdit = this.handleEdit.bind(this)
+    this.handleCommentReplyDelete = this.handleCommentReplyDelete.bind(this)
   }
 
 //   comment:
@@ -82,6 +86,25 @@ export default class Comments extends Component {
     }
     contentPoster("patch", data, url)
   }
+  handleCommentReplyDelete = (id) => {
+    const url = urlBuilder({
+      parent_type: this.state.replyType.parentType,
+      parent_id: this.state.replyType.parentID,
+      request_type: this.state.replyType.requestType,
+      request_id: id
+    })
+    let data = {
+      id: id
+    }
+    contentPoster("delete", data, url).then(res => {
+      if (isEmpty(res)) {
+        let newState = this.state.commentReplies.filter(i => i["id"] !== id.toString())
+        this.setState({commentReplies: newState})
+      } else {
+        console.error("CommentReply failed to delete", res)
+      }
+    })
+  }
 
 
   render() {
@@ -96,6 +119,7 @@ export default class Comments extends Component {
         key={commentReply.id}
         commentReply={commentReply}
         comment={this.props.comment}
+        handleDelete={this.handleCommentReplyDelete}
       />  
     ));
     const StyledTextContainer = styled(Card.Body)`
@@ -107,7 +131,7 @@ export default class Comments extends Component {
       return (
         <Wrapper>
           <PosterContainer as={Col} md={{span: 10, offset: 2}}>
-            <h6>{`${poster.name} ${poster.surname}`}</h6>
+            <h6>{`${poster.name} ${poster.surname}`}</h6><button onClick={() => {this.props.handleDelete(meta.id)}}>Delete</button>
           </PosterContainer>
           <Card as={Col} md={{span: 10, offset: 2}}>
             <StyledTextContainer>
@@ -129,7 +153,7 @@ export default class Comments extends Component {
       return (
         <Wrapper>
           <PosterContainer as={Col} md={{span: 10, offset: 2}}>
-            <h6>{`${poster.name} ${poster.surname}`}</h6>
+            <h6>{`${poster.name} ${poster.surname}`}</h6><button onClick={this.handleDelete}>Delete</button>
           </PosterContainer>
           <Card as={Col} md={{span: 10, offset: 2}}>
             <Card.Img variant="top" src={`http://${store.getState().currentUser.baseUrl}${content.media}`} />

@@ -58,7 +58,6 @@ class SelectFamily extends Component {
   }
 
   render() {
-    console.log(this.state.authFamilies)
     const currentFamily = this.currentFamily()
     const options = this.state.authFamilies.map((family, index) => (
       <Dropdown.Item onClick={this.handleClick} key={index} eventKey={index} name={family.attributes["family-name"]} id={family.id}>{family.attributes["family-name"]}</Dropdown.Item>

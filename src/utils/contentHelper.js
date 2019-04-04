@@ -206,7 +206,6 @@ export const fileUpload = (method, data, requestUrl) => {
   
  let result = Axios(config)
     .then(res => {
-      console.log(res.headers)
       store.dispatch({
         type: UPDATE_HEADERS,
         headers: res.headers

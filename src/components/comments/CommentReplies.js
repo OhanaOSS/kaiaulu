@@ -18,9 +18,13 @@ const Wrapper = styled(Row)`
   width: 100%;
   margin-top: .75rem;
 `
-
-const ImgContainer = styled(Col)``
-const PosterContainer = styled(Row)``
+const PosterContainer = styled(Row)`
+  display: inline-flex;
+  width: 100%;
+  & > h6 {
+    flex: 1 0 20%;
+  }
+`
 
 export default class CommentReply extends Component {
   constructor(props){
@@ -46,11 +50,28 @@ export default class CommentReply extends Component {
   };
   
   render() {
-    
     let EditableText = contentEditable('p')
+    const currentUserID = store.getState().currentUser.data.id
     const meta = this.props.commentReply
     const content = this.props.commentReply.attributes
     const poster = findMemberData(this.props.commentReply.attributes["member-id"])
+    if (currentUserID === this.props.commentReply.attributes["member-id"]) {
+      return (
+        <Wrapper>
+          <PosterContainer as={Col} sm={{ span: 9, offset: 3 }}>
+          <h6>{`${poster.name} ${poster.surname}`}</h6><button onClick={() => {this.props.handleDelete(meta.id)}}>Delete</button>
+          </PosterContainer>
+          <Card as={Col} sm={{ span: 9, offset: 3 }}>
+            <Card.Body>
+              <EditableText object={meta} onSave={this.handleEdit} value={content.body}/>
+            </Card.Body>
+          </Card>
+          <Col md={{span: 9, offset: 3}}>
+            <Reactions type={meta.type} id={meta.id}/>
+          </Col>
+        </Wrapper>
+      )
+    } else {
       return (
         <Wrapper>
           <PosterContainer as={Col} sm={{ span: 9, offset: 3 }}>
@@ -65,6 +86,7 @@ export default class CommentReply extends Component {
             <Reactions type={meta.type} id={meta.id}/>
           </Col>
         </Wrapper>
-      )
+      ) 
+    }
   }
 }

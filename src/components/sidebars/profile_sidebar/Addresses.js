@@ -12,7 +12,6 @@ const SpanedContent = styled.span`
 `
 
 const Address = (data) => {
-  console.log(data)
   if (data.address["sec-unit-num"] && data.address["sec-unit-type"]) {
     return (
     <div>
@@ -37,7 +36,6 @@ export default class Addresses extends Component {
     
     this.handleEdit = (callback) => {
       const parsedAddress = AddressParser.parseLocation(callback.value);
-      console.log("parsed", parsedAddress)
       const url = urlBuilder({
         parent_id: store.getState().currentUser.data.id,
         parent_type: "members"
@@ -56,14 +54,11 @@ export default class Addresses extends Component {
           }
         }
       }
-      console.log(callback)
-      console.log("patch", data, url)
       contentPoster("patch", data, url).then(res => console.log(res))
     }
   }
   render() {
     let EditableText = contentEditable('div')
-    console.log(this.props)
     const addressesHash = this.props.data
     const addresses = Object.keys(addressesHash).map((address, index) => (
       <>

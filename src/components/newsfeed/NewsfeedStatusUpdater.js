@@ -4,6 +4,9 @@ import {
   Card, Button, Form, InputGroup
 } from 'react-bootstrap';
 import styled from "styled-components";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createPost } from '../../actions/postActions'
 import {contentPoster, fileUpload, urlBuilder } from '../../utils/contentHelper'
 import store from '../../store'
 
@@ -21,31 +24,12 @@ class NewsfeedStatusUpdater extends Component {
         validated: false,
         buttonActive: null
     };
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleUpload = this.handleUpload.bind(this)
-    this.handleUploadPrep = this.handleUploadPrep.bind(this)
-    this.configureData = this.configureData.bind(this)
-  }
   
-  configureData(s) {
-    const data = {
-      "post": {
-        "attributes": {
-          "body": s.status, 
-          "family_id": store.getState().currentUser.selectedFamily.familyID,
-          "member_id": store.getState().currentUser.data.id
-        }
-      }
-    }
-    return data
-  }
-  
-  handleChange(e) {
+  this.handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  handleUpload(postResponse, attachments){
+  this.handleUpload = (postResponse, attachments) => {
     var body = new FormData();
     const post = {
         "id": postResponse.id,
@@ -61,12 +45,48 @@ class NewsfeedStatusUpdater extends Component {
   }
 
 
-  handleUploadPrep(files){
+  this.handleUploadPrep = (files) => {
     this.setState({media: files})
   }
   
-  
-  handleSubmit(e) {
+  this.submitWithMedia = (url) => {
+    var form = new FormData();
+    form.append("body", this.state.status)
+    form.append("media", this.state.media[0])
+    form.append("family_id", store.getState().currentUser.selectedFamily.familyID)
+    form.append("member_id", store.getState().currentUser.data.id)
+    fileUpload("post", form, url).then(res => {
+      this.handleSucessPostProcess(res)
+      return res
+    })
+  }
+
+  this.submitWithOutMedia = (url) => {
+    const data = {
+      "post": {
+        "attributes": {
+          "body": this.state.status, 
+          "family_id": store.getState().currentUser.selectedFamily.familyID,
+          "member_id": store.getState().currentUser.data.id
+        }
+      }
+    }
+    contentPoster("post", data, url).then(res => {
+      this.handleSucessPostProcess(res)
+      return res
+    })
+  }
+
+  this.handleSucessPostProcess = (res) => {
+    store.dispatch(createPost(res))
+    this.setState({
+      status: '',
+      validated: false,
+      media: null
+    })
+  }
+
+  this.handleSubmit = (e) => {
     e.preventDefault();
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
@@ -74,20 +94,17 @@ class NewsfeedStatusUpdater extends Component {
     }
     if (form.checkValidity() === true) {
         this.setState({ validated: true });
-        contentPoster("post", this.configureData(this.state),urlBuilder({
-            parent_type: "post"
-       })).then(res => {
-            this.handleUpload(res, this.state.media)
-          }).then(res =>{
-            this.setState({
-              status: '',
-              validated: false,
-              media: null
-            })
-            form.reset();
-          })
+        const url = urlBuilder({parent_type: "post"})
+        new Promise((resolve) => {
+          if (this.state.media !== null) {
+            resolve(this.submitWithMedia(url))
+          } else {
+            resolve(this.submitWithOutMedia(url))
+          }
+        }).then(e.currentTarget.reset())
     }
   }
+}
   render() {
     const placeholder = Placeholders[Math.floor(Math.random()*Placeholders.length)]
     return (
@@ -130,7 +147,11 @@ class NewsfeedStatusUpdater extends Component {
   }
 }
 
-export default NewsfeedStatusUpdater;
+NewsfeedStatusUpdater.propTypes = {
+  createPost: PropTypes.func.isRequired
+};
+
+export default connect(null, { createPost })(NewsfeedStatusUpdater);
 
 class StatusButton extends Component {
   constructor(props){

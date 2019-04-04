@@ -108,7 +108,6 @@ export const validateToken = validateTokenRequest => dispatch => {
   
     Axios(config)
     .then((res) => {
-      console.log(res)
         dispatch({
             type: VALIDATE_TOKEN_SUCESS,
             headers: res.headers
