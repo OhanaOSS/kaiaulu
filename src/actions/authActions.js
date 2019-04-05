@@ -22,17 +22,22 @@ export const signIn = signInCredentials => dispatch => {
 };
 
 export const signUpWithNewFamily = signUpWithNewFamilyCredentials => dispatch => {
-    Axios.post(`http://${signUpWithNewFamilyCredentials.baseUrl}/v1/auth`, {
-        family:  {
-            family_name: signUpWithNewFamilyCredentials.familyName
-        },
-        registration: {
-            email: signUpWithNewFamilyCredentials.email,
-            password: signUpWithNewFamilyCredentials.password,
-            name: signUpWithNewFamilyCredentials.name,
-            surname: signUpWithNewFamilyCredentials.surname,
-        }
-    })
+    let data = {
+      family:  {
+        family_name: signUpWithNewFamilyCredentials.familyName
+      },
+      registration: {
+          email: signUpWithNewFamilyCredentials.email,
+          password: signUpWithNewFamilyCredentials.password,
+          name: signUpWithNewFamilyCredentials.name,
+          surname: signUpWithNewFamilyCredentials.surname,
+      }
+    }
+    if (signUpWithNewFamilyCredentials.familyID !== undefined) {
+      data.family.familyId = signUpWithNewFamilyCredentials.familyId
+    }
+    console.log(signUpWithNewFamilyCredentials, data)
+    Axios.post(`http://${signUpWithNewFamilyCredentials.baseUrl}/v1/auth`, data)
     .then(res => {
       dispatch({
         type: NEW_SIGN_UP_WITH_NEW_FAMILY,
@@ -123,6 +128,7 @@ export const validateToken = validateTokenRequest => dispatch => {
     });
 
   };
+
   export const setFamilies = (authFamilies, selectedFamily) => dispatch => {
     dispatch({
       type: SET_FAMILIES,

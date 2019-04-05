@@ -23,7 +23,7 @@ export class Nav extends Component {
                 <SignOutButton/>
             </li>
             <li className="nav-item">
-                <SelectFamily/>
+                <SelectFamily auth="authorized"/>
             </li>
           </ul>
         </div>

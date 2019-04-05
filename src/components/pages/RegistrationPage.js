@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
+import {Tabs, Tab} from 'react-bootstrap'
+import SignUpForm from '../auth/SignUpForm'
 
 class RegistrationPage extends Component {
   render() {
     return (
         <section>
-            <h3>RegistrationPage</h3>
-            <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis mollitia eum praesentium maiores, facere sapiente aliquid? Explicabo nobis quos eius rerum cumque officia minus porro, accusantium eos nisi. Architecto, corrupti.</div>
+            <h3>Signup Page</h3>
+            <Tabs defaultActiveKey="existing">
+              <Tab eventKey="new" title="Signup with New Family">
+                <SignUpForm type="new"/>
+              </Tab>
+              <Tab eventKey="existing" title="Signup with Existing Family">
+                <SignUpForm type="existing"/>
+              </Tab>
+            </Tabs>
         </section>
     );
   }

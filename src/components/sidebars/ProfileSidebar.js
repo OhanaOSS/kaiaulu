@@ -5,7 +5,7 @@ import {
 } from 'react-bootstrap';
 import styled from "styled-components";
 import store from "../../store";
-import { urlBuilder, contentFetcher } from '../../utils/contentHelper'
+import { urlBuilder, contentFetcher, fileUpload } from '../../utils/contentHelper'
 
 const Wrapper = styled(Col)``
 
@@ -21,6 +21,10 @@ const StyledCard = styled(Card)`
 const Name = styled.div`
   margin: 0 auto;
 `
+const HiddenInput = styled.input`
+  display: none;
+`
+
 const NickName = (data) => {
   const StyledNickName = styled.small`
     margin: 0 auto;
@@ -36,7 +40,26 @@ class ProfileSidebar extends Component {
   constructor(props){
     super(props)
     this.state = {
-      profile: null
+      profile: null,
+      media: null
+    }
+    this.handleClick = (e) => {
+      this.refs.fileUploader.click();
+    }
+    this.handleUpload = (files) => {
+        console.log(files)
+        const memberID = store.getState().currentUser.data.id
+        let data = new FormData();
+        data.append("id", memberID)
+        data.append("avatar", files[0])
+        console.log(data)
+        fileUpload("put", data, urlBuilder({
+          parent_id: memberID,
+          parent_type: "members"
+        })).then(res => {
+          console.log(res)
+          this.setState({profile: res})
+        }).then(console.log(this.state))
     }
   }
   componentDidMount(){
@@ -47,14 +70,26 @@ class ProfileSidebar extends Component {
   }
   render() {
     const currentUser = store.getState().currentUser.data
+    if (this.state.profile) {
       return (
         <Wrapper sm={3}>
             <StyledCard>
-                  <StyledImage src={`http://${store.getState().currentUser.baseUrl}/images/default_avatar.png`} rounded/>
+                  <StyledImage src={`http://${store.getState().currentUser.baseUrl}/${this.state.profile.attributes.avatar}`} onClick={this.handleClick} rounded/>
                   <Name>{`${currentUser.name} ${currentUser.surname}`}</Name>
+                  <HiddenInput type="file" id="file" ref="fileUploader" onChange={e => this.handleUpload(e.currentTarget.files)}/>
             </StyledCard>
         </Wrapper>
       );  
+    } else {
+      return (
+        <Wrapper sm={3}>
+            <StyledCard>
+                  <Name>{`${currentUser.name} ${currentUser.surname}`}</Name>
+                  <HiddenInput type="file" id="file" ref="fileUploader" onChange={e => this.handleUpload(e.currentTarget.files)}/>
+            </StyledCard>
+        </Wrapper>
+      );   
+    }
   }
 }
 

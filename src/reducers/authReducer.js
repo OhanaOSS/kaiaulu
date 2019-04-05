@@ -1,5 +1,5 @@
 import { SET_FAMILIES, UPDATE_HEADERS, VALIDATE_TOKEN_SUCESS, VALIDATE_TOKEN_FAILURE, SIGN_OUT, NEW_SIGN_IN, NEW_SIGN_UP_WITH_NEW_FAMILY } from '../actions/types';
-
+import store from '../store'
 const initialState = {
   baseUrl: '',
   currentHeader: {},
@@ -13,7 +13,6 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case NEW_SIGN_IN:
-      window.localStorage.setItem('headers', action.headers);
       return {
         ...state,
         isAuthenticated: true,
@@ -23,7 +22,6 @@ export default function(state = initialState, action) {
         data: action.payload
       };
     case NEW_SIGN_UP_WITH_NEW_FAMILY:
-      window.localStorage.setItem('headers', action.headers);
       return {
         ...state,
         isAuthenticated: true,
@@ -48,7 +46,6 @@ export default function(state = initialState, action) {
         currentHeader: {}
       };
     case VALIDATE_TOKEN_SUCESS:
-      window.localStorage.setItem('headers', action.headers);
       return {
         ...state,
         isAuthenticated: true,
@@ -61,7 +58,6 @@ export default function(state = initialState, action) {
           ...state
         };
       } else {
-        window.localStorage.setItem('headers', action.headers);
         return {
           ...state,
           isAuthenticated: true,

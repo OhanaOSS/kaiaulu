@@ -117,6 +117,46 @@ export const contentFetcher = (requestUrl) => {
       
 };
 
+export const familyFetcher = (baseUrl) => {
+  let config = {
+    // `url` is the server URL that will be used for the request
+    url: '/v1/families',
+
+    // `method` is the request method to be used when making the request
+    method: 'get',
+  
+    // `baseURL` will be prepended to `url` unless `url` is absolute.
+    // It can be convenient to set `baseURL` for an instance of axios to pass relative URLs
+    // to methods of that instance.
+    baseURL: `http://${baseUrl}`,
+  
+    // `headers` are custom headers to be sent
+    headers: store.getState().currentUser.currentHeader,
+  
+    // `timeout` specifies the number of milliseconds before the request times out.
+    // If the request takes longer than `timeout`, the request will be aborted.
+    // timeout: 1000,
+  
+    // `responseType` indicates the type of data that the server will respond with
+    // options are 'arraybuffer', 'blob', 'document', 'json', 'text', 'stream'
+    responseType: 'json', // default
+  }
+
+
+ let result = Axios(config)
+    .then(res => {
+      store.dispatch({
+        type: UPDATE_HEADERS,
+        headers: res.headers
+      })
+      // 
+      return res.data.data
+    })
+    // 
+    return Promise.resolve(result)
+    
+};
+
 export const contentPoster = (method, data, requestUrl) => {
   let config = {
     // `url` is the server URL that will be used for the request

@@ -1,7 +1,8 @@
-import { FETCH_MEMBERS } from '../actions/types';
+import { FETCH_MEMBERS, SET_AUTH_FAMILY_MEMBERS } from '../actions/types';
 
 const initialState = {
-  items: []
+  items: [],
+  familyMembers: []
 };
 
 export default function(state = initialState, action) {
@@ -10,6 +11,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         items: action.payload
+      };
+    case SET_AUTH_FAMILY_MEMBERS:
+      return {
+        ...state,
+        familyMembers: action.payload
       };
     default:
       return state;
