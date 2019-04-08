@@ -1,13 +1,7 @@
 import React, { Component } from 'react'
-import Comment from './Comment'
-import {
-  Row, Col,
-  Card, Button, Image
-} from 'react-bootstrap';
-import store, {history} from '../../store';
+import {Row, Col, Card} from 'react-bootstrap';
+import store from '../../store';
 import styled from "styled-components";
-import Axios from 'axios';
-import CommentForm from './CommentForm'
 import Reactions from '../reactions/Reactions';
 import contentEditable from '../utils/contentEditable'
 import {contentPoster, urlBuilder, findMemberData} from '../../utils/contentHelper';

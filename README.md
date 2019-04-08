@@ -1,69 +1,25 @@
 # kaiaulu
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Kaiaulu is the [front-end application for hale](https://github.com/ohanaOSS/hale) and apart of OhanaOSS, together they're helping make privacy for families more accessible as a distributed social network.
 
-## Available Scripts
+This application is in Alpha as we expand into the various features already built out in the latest major release of OhanaOSS hale.
 
-In the project directory, you can run:
+## How To Deploy
+This project uses Facebook's Create-React-App as a baseplate and has [extensive docs on deploying](https://facebook.github.io/create-react-app/docs/deployment) just about anywhere. This application is designed as a standalone "portal" that connects to [hale servers](https://github.com/ohanaOSS/hale). This application connects to hale servers by storing a base url directed to where your server is located (i.e. example.com/).
 
-### `npm start`
+## Terms of use
+This is free software, view the [License](https://github.com/OhanaOSS/kaiaulu/blob/master/LICENSE) for specifics.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Contribution Guidelines
+Currently, any help is appreciated! If you have a question or bug submission, please [open an issue](https://github.com/OhanaOSS/kaiaulu/issues/new).
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+If you'd like to contribute code, open up an [open an issue](https://github.com/OhanaOSS/kaiaulu/issues/new) or claim [an existing enhancement](https://github.com/OhanaOSS/kaiaulu/labels/enhancement) or [bug](https://github.com/OhanaOSS/kaiaulu/labels/bug). In time, ["help wanted"](https://github.com/OhanaOSS/kaiaulu/labels/help%20wanted) and ["good first issue"](https://github.com/OhanaOSS/kaiaulu/labels/good%20first%20issue) issues will become available as I have time to parse features; These all serve as first-come, first-serve, however if you claim an issue and are absent or disappear your claimed issue may be assigned to another contributor.
 
-### `npm test`
+# Road Map
+## Next Release
+1. Directory views and profiles for users
+2. Local Storage of tokens and cookies to avoid sign in fatigue
+3. Expand Test Suite
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Following Releases
+1. Recipes
+2. Events
