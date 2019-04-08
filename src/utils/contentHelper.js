@@ -56,17 +56,11 @@ const pluralizeType = (string) => {
   switch (string) {
     case "post": case "posts":
       return "posts"
-    case "comment":
+    case "comment": case "comments":
       return "comments"
-    case "comments":
-      return "comments"
-    case "comment_reply":
+    case "comment_replys": case "comment_reply": case "comment-reply": case "CommentReply":
       return "comment_replys"
-    case "comment-reply":
-      return "comment_replys"
-    case "reaction":
-      return "reactions"
-    case "reactions":
+    case "reaction": case "reactions":
       return "reactions"
     case "member": case "members":
       return "members"
