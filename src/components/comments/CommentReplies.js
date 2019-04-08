@@ -67,7 +67,7 @@ export default class CommentReply extends Component {
             </Card.Body>
           </Card>
           <Col md={{span: 9, offset: 3}}>
-            <Reactions type={meta.type} id={meta.id}/>
+            <Reactions type={"CommentReply"} id={meta.id}/>
           </Col>
         </Wrapper>
       )
@@ -83,7 +83,7 @@ export default class CommentReply extends Component {
             </Card.Body>
           </Card>
           <Col md={{span: 9, offset: 3}}>
-            <Reactions type={meta.type} id={meta.id}/>
+            <Reactions type={"CommentReply"} id={meta.id}/>
           </Col>
         </Wrapper>
       ) 
