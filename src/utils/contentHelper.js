@@ -262,7 +262,7 @@ export const fileUpload = (method, data, requestUrl) => {
 export const findMemberData = (memberID) => {
   // Take in Array and Map
   // member.id is a str and memberID is an int.
-  const memberData = store.getState().members.items.find(member => member.id == memberID)
+  const memberData = store.getState().members.items.find(member => member.id === memberID)
 
   return memberData.attributes
 

@@ -3,7 +3,7 @@ import {
   Row, Col,
   Card
 } from 'react-bootstrap';
-import store, {history} from '../../store';
+import store from '../../store';
 import styled from "styled-components";
 import {contentPoster, contentFetcher, urlBuilder, findMemberData} from '../../utils/contentHelper';
 import {isEmpty} from '../../utils/dataHelpers';

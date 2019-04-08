@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { removePost } from '../../actions/postActions';
-import { REMOVE_POST } from '../../actions/types'
 import { isEmpty } from '../../utils/dataHelpers'
-import {
-  Row, Col,
-  Card, Button
-} from 'react-bootstrap';
+import {Card} from 'react-bootstrap';
 import Comments from '../comments/Comments';
 import Reactions from '../reactions/Reactions';
-import store, {history} from '../../store';
+import store from '../../store';
 import styled from "styled-components";
-import Axios from 'axios';
 import {contentFetcher, urlBuilder, contentPoster} from '../../utils/contentHelper';
 import contentEditable from '../utils/contentEditable'
 
