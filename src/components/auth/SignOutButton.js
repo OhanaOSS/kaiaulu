@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { signOut } from '../actions/authActions';
-import store from '../store';
+import { signOut } from '../../actions/authActions';
+import store from '../../store';
+import {Button} from "react-bootstrap"
 
 class SignOutButton extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class SignOutButton extends Component {
   render() {
     return (
       <div>
-        <button onClick={this.onClick}>Sign Out</button>
+        <Button variant="secondary" onClick={this.onClick}>Sign Out</Button>
       </div>
     );
   }

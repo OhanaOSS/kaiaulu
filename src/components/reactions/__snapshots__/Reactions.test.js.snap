@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Reactions renders properly 1`] = `
+<styled.ul>
+  <li
+    as={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "defaultProps": undefined,
+        "propTypes": undefined,
+        "render": [Function],
+      }
+    }
+  >
+    <Heart
+      count={0}
+      enabled={false}
+      handleRequest={[Function]}
+    />
+  </li>
+  <li
+    as={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "defaultProps": undefined,
+        "propTypes": undefined,
+        "render": [Function],
+      }
+    }
+  >
+    <Like
+      count={0}
+      enabled={false}
+      handleRequest={[Function]}
+    />
+  </li>
+  <li
+    as={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "defaultProps": undefined,
+        "propTypes": undefined,
+        "render": [Function],
+      }
+    }
+  >
+    <Dislike
+      count={0}
+      enabled={false}
+      handleRequest={[Function]}
+    />
+  </li>
+  <li
+    as={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "defaultProps": undefined,
+        "propTypes": undefined,
+        "render": [Function],
+      }
+    }
+  >
+    <Haha
+      count={0}
+      enabled={false}
+      handleRequest={[Function]}
+    />
+  </li>
+  <li
+    as={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "defaultProps": undefined,
+        "propTypes": undefined,
+        "render": [Function],
+      }
+    }
+  >
+    <Wow
+      count={0}
+      enabled={false}
+      handleRequest={[Function]}
+    />
+  </li>
+  <li
+    as={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "defaultProps": undefined,
+        "propTypes": undefined,
+        "render": [Function],
+      }
+    }
+  >
+    <Sad
+      count={0}
+      enabled={false}
+      handleRequest={[Function]}
+    />
+  </li>
+  <li
+    as={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "defaultProps": undefined,
+        "propTypes": undefined,
+        "render": [Function],
+      }
+    }
+  >
+    <Angry
+      count={0}
+      enabled={false}
+      handleRequest={[Function]}
+    />
+  </li>
+</styled.ul>
+`;

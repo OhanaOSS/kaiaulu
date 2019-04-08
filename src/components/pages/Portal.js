@@ -1,14 +1,44 @@
 import React, { Component } from 'react';
+import {
+  Container, Row, Col,
+  Card, Form
+} from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import styled from "styled-components";
+import ProfileSidebar from '../sidebars/ProfileSidebar'
+import Newsfeed from '../newsfeed/Newsfeed'
+import AuthSidebar from '../sidebars/AuthSidebar'
+import {fetchMembers, setFamilyMembers} from '../../actions/memberActions'
+
+const Wrapper = styled(Row)``
 
 class Portal extends Component {
+
+  componentWillMount() {
+    this.props.fetchMembers();
+    this.props.setFamilyMembers();
+  }
+
   render() {
     return (
-        <section>
-            <h3>Portal</h3>
-            <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis mollitia eum praesentium maiores, facere sapiente aliquid? Explicabo nobis quos eius rerum cumque officia minus porro, accusantium eos nisi. Architecto, corrupti.</div>
-        </section>
+        <Wrapper>
+          <ProfileSidebar sm={3}/>
+          <Newsfeed sm={6}/>
+          <AuthSidebar members={this.props.members} sm={3}/>
+        </Wrapper>
     );
   }
 }
 
-export default Portal;
+Portal.propTypes = {
+  setFamilyMembers: PropTypes.func.isRequired,
+  fetchMembers: PropTypes.func.isRequired,
+  members: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+  members: state.members
+});
+
+export default connect(mapStateToProps, {setFamilyMembers, fetchMembers })(Portal);

@@ -1,42 +1,52 @@
 // Backend Docs on gem handling auth here: https://devise-token-auth.gitbook.io/devise-token-auth/usage
 
-import { VALIDATE_TOKEN_SUCESS, VALIDATE_TOKEN_FAILURE, SIGN_OUT, NEW_SIGN_IN, NEW_SIGN_UP_WITH_NEW_FAMILY } from './types';
+import { SET_FAMILIES, VALIDATE_TOKEN_SUCESS, VALIDATE_TOKEN_FAILURE, SIGN_OUT, NEW_SIGN_IN, NEW_SIGN_UP_WITH_NEW_FAMILY } from './types';
 import Axios from 'axios';
 import store, {history} from '../store';
 
 export const signIn = signInCredentials => dispatch => {
     Axios.post(`http://${signInCredentials.baseUrl}/v1/auth/sign_in`, signInCredentials)
     .then(res => {
-      dispatch({
-        type: NEW_SIGN_IN,
-        baseUrl: signInCredentials.baseUrl,
-        payload: res.data.data,
-        headers: res.headers
-      })
-      history.push('/app')
+      try {
+        dispatch({
+          type: NEW_SIGN_IN,
+          baseUrl: signInCredentials.baseUrl,
+          payload: res.data.data,
+          headers: res.headers
+        })
+        history.push('/app')
+      } catch (error) {
+        return new Error(error)
+      }
     });
 };
 
 export const signUpWithNewFamily = signUpWithNewFamilyCredentials => dispatch => {
-    Axios.post(`http://${signUpWithNewFamilyCredentials.baseUrl}/v1/auth`, {
-        family:  {
-            family_name: signUpWithNewFamilyCredentials.familyName
-        },
-        registration: {
-            email: signUpWithNewFamilyCredentials.email,
-            password: signUpWithNewFamilyCredentials.password,
-            name: signUpWithNewFamilyCredentials.name,
-            surname: signUpWithNewFamilyCredentials.surname,
-        }
-    })
-    .then(res => 
+    let data = {
+      family:  {
+        family_name: signUpWithNewFamilyCredentials.familyName
+      },
+      registration: {
+          email: signUpWithNewFamilyCredentials.email,
+          password: signUpWithNewFamilyCredentials.password,
+          name: signUpWithNewFamilyCredentials.name,
+          surname: signUpWithNewFamilyCredentials.surname,
+      }
+    }
+    if (signUpWithNewFamilyCredentials.familyID !== undefined) {
+      data.family["family_id"] = signUpWithNewFamilyCredentials.familyID
+    }
+    console.log(signUpWithNewFamilyCredentials, data)
+    Axios.post(`http://${signUpWithNewFamilyCredentials.baseUrl}/v1/auth`, data)
+    .then(res => {
       dispatch({
         type: NEW_SIGN_UP_WITH_NEW_FAMILY,
         baseUrl: signUpWithNewFamilyCredentials.baseUrl,
         payload: res.data.data,
         headers: res.headers
       })
-    );
+      history.push('/app')
+    });
 };
 
 export const signOut = signOutRequest => dispatch => {
@@ -66,12 +76,13 @@ export const signOut = signOutRequest => dispatch => {
   }
 
   Axios(config)
-  .then(res => 
+  .then(res => {
     dispatch({
       type: SIGN_OUT,
       headers: res.headers
     })
-  );
+    history.push('/')
+  });
 };
 
 export const validateToken = validateTokenRequest => dispatch => {
@@ -116,4 +127,14 @@ export const validateToken = validateTokenRequest => dispatch => {
         }
     });
 
+  };
+
+  export const setFamilies = (authFamilies, selectedFamily) => dispatch => {
+    dispatch({
+      type: SET_FAMILIES,
+      payload: {
+        authFamilies: authFamilies,
+        selectedFamily: selectedFamily
+      }
+    })
   };

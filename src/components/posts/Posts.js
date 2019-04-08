@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPosts } from '../actions/postActions';
+import { fetchPosts } from '../../actions/postActions';
+import {
+  Row, Col,
+  Card, Button
+} from 'react-bootstrap';
+import store, {history} from '../../store';
+import styled from "styled-components";
+import FeedPost from "./FeedPost";
+
 
 class Posts extends Component {
+
   componentWillMount() {
     this.props.fetchPosts();
   }
@@ -16,14 +25,17 @@ class Posts extends Component {
 
   render() {
     const postItems = this.props.posts.map(post => (
-      <div key={post.id}>
-        <h3>{post.title}</h3>
-        <p>{post.body}</p>
-      </div>
+      <FeedPost
+        key={post.id}
+        meta={post}
+        post={post.attributes}
+        poster={post.relationships.member.data}
+        relatedCommentsLink={post.relationships.comments.links.related}
+        comments={post.relationships.comments.data}
+      />
     ));
     return (
       <div>
-        <h1>Posts</h1>
         {postItems}
       </div>
     );
