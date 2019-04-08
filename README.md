@@ -1,3 +1,4 @@
+![alt text](ohana.png "Kaiaulu")
 # kaiaulu
 Kaiaulu is the [front-end application for hale](https://github.com/ohanaOSS/hale) and apart of OhanaOSS, together they're helping make privacy for families more accessible as a distributed social network.
 
