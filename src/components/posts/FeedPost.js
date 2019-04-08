@@ -92,7 +92,6 @@ class FeedPost extends Component {
             <Card>
               <Card.Body>
                   <EditableText object={meta} onSave={this.handleEdit} value={post.body}/>
-                  <Card.Text>{post.body}</Card.Text>
               </Card.Body>
             </Card>
             <Reactions type={meta.type} id={meta.id}/>
@@ -147,16 +146,4 @@ class FeedPost extends Component {
   }
 }
 
-// FeedPost.propTypes = {
-//   fetchPosts: PropTypes.func.isRequired,
-//   posts: PropTypes.array.isRequired,
-//   newPost: PropTypes.object
-// };
-
-// const mapStateToProps = state => ({
-//   posts: state.posts.items,
-//   newPost: state.posts.item
-// });
-
-// export default connect(mapStateToProps, { fetchPosts })(Posts);
 export default FeedPost

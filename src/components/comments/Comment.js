@@ -22,9 +22,7 @@ const PosterContainer = styled(Row)`
     flex: 1 0 20%;
   }
 `
-const CommentText = styled(Card.Text)`
-  color: red;
-`
+const CommentText = styled(Card.Text)``
 
 export default class Comments extends Component {
   constructor(props){
