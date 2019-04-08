@@ -4,8 +4,8 @@ class Home extends Component {
   render() {
     return (
         <section>
-            <h3>Home</h3>
-            <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis mollitia eum praesentium maiores, facere sapiente aliquid? Explicabo nobis quos eius rerum cumque officia minus porro, accusantium eos nisi. Architecto, corrupti.</div>
+            <h3>Ohana Front-end</h3>
+            <div>Ohana is a distributed private social network that is in alpha. Learn more about the project here: <a href="https://www.github.com/ohanaoss/">OhanaOSS Github</a>.</div>
         </section>
     );
   }
