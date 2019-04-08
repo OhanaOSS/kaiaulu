@@ -12,6 +12,15 @@ const StyledImage = styled(Image)`
   height: 100px;
   margin: 0 auto;
 `
+const User = styled.span`
+  display: inline-flex;
+  margin-right: 5px;
+  width: 100%;
+`
+
+const AuthProfile = styled.div`
+  margin-bottom: 20px;
+`
 
 export default class MemberToAuth extends Component {
   constructor(props){
@@ -89,9 +98,10 @@ export default class MemberToAuth extends Component {
         <Dropdown.Item onClick={this.handleRoleChange} key={index} eventKey={index} type={attr}>{attr}</Dropdown.Item>
       ))
       return (
-        <div>
+        <AuthProfile>
           <span><StyledImage src={`http://${store.getState().currentUser.baseUrl}/${this.props.memberProfile.attributes.avatar}`} roundedCircle /></span>
-          <span><h6>{`${this.props.memberProfile.attributes.name} ${this.props.memberProfile.attributes.surname}`}</h6> <small>{`(${this.state.familyMemberData.attributes["user-role"]})`}</small></span>
+          <User><h6>{`${this.props.memberProfile.attributes.name} ${this.props.memberProfile.attributes.surname}`}</h6> <small>{`(${this.state.familyMemberData.attributes["user-role"]})`}</small></User>
+          <AuthorizeButton authorized={this.state.authorized} url={this.state.familyMemberData.links.self} resetState={this.handleUpdate}/>
           <SplitButton
             drop={"down"}
             variant="secondary"
@@ -102,13 +112,17 @@ export default class MemberToAuth extends Component {
           >
             {dropDownOptions}
           </SplitButton>
-          <AuthorizeButton authorized={this.state.authorized} url={this.state.familyMemberData.links.self} resetState={this.handleUpdate}/>
-        </div>
+        </AuthProfile>
       ) 
     }
   }
 }
 
+const StyledButton = styled(Button)`
+
+  margin-bottom: 10px;
+
+`
 
 class AuthorizeButton extends Component {
   constructor(props){
@@ -148,13 +162,13 @@ class AuthorizeButton extends Component {
     if (this.props.authorized === true) {
       return (
         <div>
-          <Button variant="secondary" size="sm" onClick={this.handleAuthorization}>Deauthorize Member</Button>
+          <StyledButton variant="secondary" size="sm" onClick={this.handleAuthorization}>Deauthorize Member</StyledButton>
         </div>
       )
     } else if (this.props.authorized === false) {
       return (
         <div>
-          <Button variant="secondary" size="sm" onClick={this.handleAuthorization}>Authorize Member</Button>
+          <StyledButton variant="secondary" size="sm" onClick={this.handleAuthorization}>Authorize Member</StyledButton>
         </div>
       )
     } else {
