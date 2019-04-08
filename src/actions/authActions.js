@@ -34,7 +34,7 @@ export const signUpWithNewFamily = signUpWithNewFamilyCredentials => dispatch =>
       }
     }
     if (signUpWithNewFamilyCredentials.familyID !== undefined) {
-      data.family.familyId = signUpWithNewFamilyCredentials.familyId
+      data.family["family_id"] = signUpWithNewFamilyCredentials.familyID
     }
     console.log(signUpWithNewFamilyCredentials, data)
     Axios.post(`http://${signUpWithNewFamilyCredentials.baseUrl}/v1/auth`, data)

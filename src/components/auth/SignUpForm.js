@@ -14,7 +14,8 @@ class SignUpForm extends Component {
         name: '',
         surname: '',
         email: '',
-        password: ''
+        password: '',
+        familyData: {}
     };
 
   this.onChange = (e) => {
@@ -26,7 +27,7 @@ class SignUpForm extends Component {
     console.log(this.state)
     e.preventDefault();
     let signUpCredentials
-
+    console.log(this.state)
     if (this.props.type === "new") {
       signUpCredentials = {
         baseUrl: this.state.baseUrl,
@@ -50,13 +51,14 @@ class SignUpForm extends Component {
 
     this.props.signUpWithNewFamily(signUpCredentials);
   }
+
   this.handleFamilyData = (data) => {
     if (data.familyName !== undefined && data.familyID !== undefined) {
       this.setState({ 
         familyName: data.familyName,
         familyID: data.familyID
-       });
-    }else if (data.familyName !== undefined) {
+        })
+    } else if (data.familyName !== undefined) {
       this.setState({ 
         familyName: data.familyName
        });

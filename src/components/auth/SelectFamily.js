@@ -47,16 +47,26 @@ class SelectFamily extends Component {
     })
   }
   handleClick(e){
-    const familyID = e.target.getAttribute('id')
-    const familyName = e.target.getAttribute('name')
-    const newSelectedFamily = {
-      familyName: familyName,
-      familyID: familyID
+    if (this.props.auth === "authorized") {
+      const familyID = e.target.getAttribute('id')
+      const familyName = e.target.getAttribute('name')
+      const newSelectedFamily = {
+        familyName: familyName,
+        familyID: familyID
+      }
+      this.setState({
+        selectedFamily: newSelectedFamily
+      })
+      this.props.setFamilies(this.state.authFamilies, newSelectedFamily) 
+    } else if (this.props.auth === "unauthorized"){
+      const familyID = e.target.getAttribute('id')
+      const familyName = e.target.getAttribute('name')
+      const selectedFamily = {
+        familyName: familyName,
+        familyID: familyID
+      }
+      this.props.familyData(selectedFamily)
     }
-    this.setState({
-      selectedFamily: newSelectedFamily
-    })
-    this.props.setFamilies(this.state.authFamilies, newSelectedFamily)
   }
   currentFamily(){
     if (this.state.selectedFamily === null) {
